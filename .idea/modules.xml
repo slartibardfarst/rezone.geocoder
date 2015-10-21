@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.iml" filepath="$PROJECT_DIR$/rezone.geocoder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.api/rezone.geocoder.api.iml" filepath="$PROJECT_DIR$/rezone.geocoder.api/rezone.geocoder.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.endpoints.search/rezone.geocoder.endpoints.search.iml" filepath="$PROJECT_DIR$/rezone.geocoder.endpoints.search/rezone.geocoder.endpoints.search.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.endpoints.suggest/rezone.geocoder.endpoints.suggest.iml" filepath="$PROJECT_DIR$/rezone.geocoder.endpoints.suggest/rezone.geocoder.endpoints.suggest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.eswrapper/rezone.geocoder.eswrapper.iml" filepath="$PROJECT_DIR$/rezone.geocoder.eswrapper/rezone.geocoder.eswrapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.parser/rezone.geocoder.parser.iml" filepath="$PROJECT_DIR$/rezone.geocoder.parser/rezone.geocoder.parser.iml" />
+    </modules>
+  </component>
+</project>
