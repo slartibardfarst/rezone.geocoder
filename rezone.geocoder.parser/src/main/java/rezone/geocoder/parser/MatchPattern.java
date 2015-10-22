@@ -6,30 +6,20 @@ import java.util.*;
 public class MatchPattern {
 
     private int _numTokens;
-    private List<Predicate> _predicates;
+    private Predicate[] _predicates;
 
-    public MatchPattern() {
-        _predicates = new ArrayList<>();
-        _numTokens = 0;
+
+    public MatchPattern(Predicate[] predicates) {
+        _predicates = predicates;
+
+        for (Predicate currPredicate : _predicates)
+            _numTokens += currPredicate.getNumTokens();
     }
 
-    public MatchPattern(List<Predicate> predicates) {
-        _predicates = new ArrayList<>(predicates);
-        _predicates.stream().forEach((p) -> {
-            _numTokens += p.getNumTokens();
-        });
-    }
-
-    public int getNumTokens()
-    {
+    public int getNumTokens() {
         return _numTokens;
     }
 
-    public void addPredicate(Predicate p)
-    {
-        _predicates.add(p);
-        _numTokens += p.getNumTokens();
-    }
 
     public MatchResult test(InputTokens input) {
         if (input.getNumTokens() != _numTokens) {
