@@ -17,8 +17,11 @@ public class InputTokens {
         return Tokens.length;
     }
 
-    public static InputTokens tokenize(String inputString)
-    {
+    public void resetCurrPos() {
+        CurrPos = 0;
+    }
+
+    public static InputTokens tokenize(String inputString) {
         String[] tokens = inputString.split("\\s+|,\\s*");
 
         InputTokens result = new InputTokens(tokens);
