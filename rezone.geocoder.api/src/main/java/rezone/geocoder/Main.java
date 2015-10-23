@@ -24,6 +24,7 @@ public class Main {
         // in rezone.geocoder package
         final ResourceConfig rc = new ResourceConfig().packages("rezone.geocoder");
 
+
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
