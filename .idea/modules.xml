@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.iml" filepath="$PROJECT_DIR$/rezone.geocoder.iml" />
       <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.api/rezone.geocoder.api.iml" filepath="$PROJECT_DIR$/rezone.geocoder.api/rezone.geocoder.api.iml" />
       <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.parser/rezone.geocoder.parser.iml" filepath="$PROJECT_DIR$/rezone.geocoder.parser/rezone.geocoder.parser.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rezone.geocoder.repository/rezone.geocoder.repository.iml" filepath="$PROJECT_DIR$/rezone.geocoder.repository/rezone.geocoder.repository.iml" />
     </modules>
   </component>
 </project>
