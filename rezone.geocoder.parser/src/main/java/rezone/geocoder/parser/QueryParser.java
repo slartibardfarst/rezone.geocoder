@@ -16,10 +16,12 @@ public class QueryParser {
 
     public Geo[] parse(String query, ParseDebug dbg) {
 
+        if(null!= dbg) {dbg.startStopwatch();}
         InputTokens tokenizedQuery = InputTokens.tokenize(query);
         List<PatternMatch> patternMatches = testPatterns(tokenizedQuery, dbg);
 
         if(null != dbg) {
+            dbg.stopStopwatch();
             dbg.setInputQuery(query);
             dbg.setInputTokens(tokenizedQuery);
             dbg.buildListOfMatchedPatterns();

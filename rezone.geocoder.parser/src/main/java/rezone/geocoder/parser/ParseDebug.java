@@ -11,6 +11,8 @@ public class ParseDebug {
     private InputTokens _tokenizedQuery;
     private List<PatternMatch> _results;
     private String _matchedIndices;
+    private long _start;
+    private long _duration;
 
     public void setInputQuery(String query) {
         _inputQuery = query;
@@ -25,6 +27,18 @@ public class ParseDebug {
             _results = new ArrayList<>();
 
         _results.add(result);
+    }
+
+    public void startStopwatch()
+    {
+        _start = System.currentTimeMillis();
+    }
+
+    public long stopStopwatch()
+    {
+        long now = System.currentTimeMillis();
+        _duration = now-_start;
+        return _duration;
     }
 
     public void buildListOfMatchedPatterns()
