@@ -3,24 +3,24 @@ package rezone.geocoder.parser;
 import java.util.*;
 
 /**
- * Holds the result of applying a list of input tokens to a match pattern
+ * Holds the result of testing a list of input tokens against a pattern
  */
-public class MatchPatternResult {
+public class PatternMatch {
     public boolean Success;
     public boolean TokenCountMatch;
-    public MatchPattern Pattern;
+    public rezone.geocoder.parser.Pattern Pattern;
     private String _patternId;
     private List<PredicateMatch> _predicateMatches;
     private Predicate _firstFailedPredicate;
 
 
-    public MatchPatternResult(MatchPattern pattern) {
+    public PatternMatch(rezone.geocoder.parser.Pattern pattern) {
         Success = false;
         Pattern = pattern;
         _patternId = pattern.getPatternId();
     }
 
-    public MatchPatternResult(MatchPattern pattern, boolean tokenCountMatch) {
+    public PatternMatch(rezone.geocoder.parser.Pattern pattern, boolean tokenCountMatch) {
         Success = false;
         TokenCountMatch = tokenCountMatch;
         Pattern = pattern;

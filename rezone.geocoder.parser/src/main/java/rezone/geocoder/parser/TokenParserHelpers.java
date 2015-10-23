@@ -38,6 +38,8 @@ public class TokenParserHelpers {
             add("nevada");
             add("ga");
             add("georgia");
+            add("co");
+            add("colorado");
         }};
 
         _streetSuffixes = new HashSet<String>() {{
@@ -51,6 +53,8 @@ public class TokenParserHelpers {
             add("road");
             add("cr");
             add("crescent");
+            add("ln");
+            add("lane");
         }};
 
         _directionals = new HashSet<String>() {{
@@ -91,11 +95,15 @@ public class TokenParserHelpers {
     }
 
     public static boolean city1(String s) {
-        return s.matches("\\w+");
+
+        return s.toLowerCase().matches("[a-z]+") &&
+                !state1(s);
     }
 
     public static boolean city2(String s, String t) {
-        return s.matches("\\w+") && t.matches("\\w+");
+        return s.toLowerCase().matches("[a-z]+") &&
+                t.toLowerCase().matches("[a-z]+") &&
+                !state2(s,t);
     }
 
     public static boolean zip1(String s) {
@@ -123,6 +131,6 @@ public class TokenParserHelpers {
     }
 
     public static boolean unit2(String s, String t) {
-        return _unitDescriptors.contains(s.toLowerCase()) && t.matches("\\d+\\w*");
+        return _unitDescriptors.contains(s.toLowerCase()) && t.matches("\\d+-?\\w*");
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class ParseDebug {
     private String _inputQuery;
     private InputTokens _tokenizedQuery;
-    private List<MatchPatternResult> _results;
+    private List<PatternMatch> _results;
     private String _matchedIndices;
 
     public void setInputQuery(String query) {
@@ -20,7 +20,7 @@ public class ParseDebug {
         _tokenizedQuery = tokenizedQuery;
     }
 
-    public void addPatternMatchResult(MatchPatternResult result) {
+    public void addPatternMatchResult(PatternMatch result) {
         if (null == _results)
             _results = new ArrayList<>();
 

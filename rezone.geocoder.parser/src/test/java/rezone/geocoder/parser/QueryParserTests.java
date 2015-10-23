@@ -63,8 +63,9 @@ public class QueryParserTests {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input, dbg);
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
-        Geo[] actual = _parser.parse(input);
 
         assertNotNull("Parser response is null", actual);
         assertEquals(1, actual.length);
@@ -73,15 +74,16 @@ public class QueryParserTests {
 
     @Test
     @Parameters({
-            "100 Lincoln Rd # 448\\, Miami Beach\\, FL 33139       | [{ address_line: '100 Lincoln Rd # 448'; street_no: '100'; street_direction: null;  street: 'Lincoln'; street_suffix: 'Rd'; street_post_direction: null; city: 'Miami Beach'; state: 'FL'; zip: '33139'; unit: '# 443' }]",
-            "851 Mink Lane Unit 1-2\\,Fraser\\,CO\\,80442          | [{ address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
+            "100 Lincoln Rd # 448\\, Miami Beach\\, FL 33139       | [{ address_line: '100 Lincoln Rd # 448'; street_no: '100'; street_direction: null;  street: 'Lincoln'; street_suffix: 'Rd'; street_post_direction: null; city: 'Miami Beach'; state: 'FL'; zip: '33139'; unit: '# 448' }]",
+            "851 Mink Lane Unit 1-2\\,Fraser\\,CO\\,80442          | [{ address_line: '851 Mink Lane Unit 102'; street_no: '851'; street_direction: null;  street: 'Mink'; street_suffix: 'Lane'; street_post_direction: null; city: 'Fraser'; state: 'CO'; zip: '80442'; unit: 'Unit 1-2' }]",
     })
     public void qaAcceptanceTests(String input, String  expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input, dbg);
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
-        Geo[] actual = _parser.parse(input);
 
         assertNotNull("Parser response is null", actual);
         assertEquals(1, actual.length);

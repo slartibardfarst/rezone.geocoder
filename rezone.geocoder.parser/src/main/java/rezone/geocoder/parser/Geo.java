@@ -9,11 +9,13 @@ public class Geo {
     public String street_suffix;
     public String street_post_direction;
     public String unit;
+    public String neighborhood;
     public String city;
+    public String county;
     public String state;
     public String zip;
 
-    public Geo(MatchPatternResult match) {
+    public Geo(PatternMatch match) {
         for (PredicateMatch currPredicateMatch : match.getMatches()) {
             switch (currPredicateMatch.Name) {
                 case "address_line":
@@ -44,8 +46,16 @@ public class Geo {
                     unit = String.join(" ", currPredicateMatch.Tokens);
                     break;
 
+                case "neighborhood":
+                    neighborhood = String.join(" ", currPredicateMatch.Tokens);
+                    break;
+
                 case "city":
                     city = String.join(" ", currPredicateMatch.Tokens);
+                    break;
+
+                case "county":
+                    county = String.join(" ", currPredicateMatch.Tokens);
                     break;
 
                 case "state":
@@ -79,7 +89,9 @@ public class Geo {
         same = same && ((null == street_post_direction) || (street_post_direction.equalsIgnoreCase(o.street_post_direction)));
         same = same && ((null == unit) || (unit.equalsIgnoreCase(o.unit)));
         same = same && ((null == city) || (city.equalsIgnoreCase(o.city)));
+        same = same && ((null == neighborhood) || (neighborhood.equalsIgnoreCase(o.neighborhood)));
         same = same && ((null == state) || (state.equalsIgnoreCase(o.state)));
+        same = same && ((null == county) || (county.equalsIgnoreCase(o.county)));
         same = same && ((null == zip) || (zip.equalsIgnoreCase(o.zip)));
 
         return same;

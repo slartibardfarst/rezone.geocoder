@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public class QueryParser {
-    private List<MatchPattern> _patterns;
+    private List<Pattern> _patterns;
 
     public QueryParser() {
         SetupTestPatterns();
@@ -17,7 +17,7 @@ public class QueryParser {
     public Geo[] parse(String query, ParseDebug dbg) {
 
         InputTokens tokenizedQuery = InputTokens.tokenize(query);
-        List<MatchPatternResult> matchPatternResults = testPatterns(tokenizedQuery, dbg);
+        List<PatternMatch> patternMatches = testPatterns(tokenizedQuery, dbg);
 
         if(null != dbg) {
             dbg.setInputQuery(query);
@@ -26,26 +26,26 @@ public class QueryParser {
         }
 
         List<Geo> result = new ArrayList<>();
-        if (null != matchPatternResults)
-            for (MatchPatternResult currMatch : matchPatternResults)
+        if (null != patternMatches)
+            for (PatternMatch currMatch : patternMatches)
                 result.add(new Geo(currMatch));
 
         return result.toArray(new Geo[0]);
     }
 
 
-    private List<MatchPatternResult> testPatterns(InputTokens inputTokens, ParseDebug dbg) {
-        List<MatchPatternResult> successfulMatches = new ArrayList<>();
+    private List<PatternMatch> testPatterns(InputTokens inputTokens, ParseDebug dbg) {
+        List<PatternMatch> successfulMatches = new ArrayList<>();
 
-        for (MatchPattern currPattern : _patterns) {
+        for (Pattern currPattern : _patterns) {
             inputTokens.resetCurrPos();
-            MatchPatternResult matchPatternResult = currPattern.test(inputTokens, (dbg != null));
+            PatternMatch patternMatch = currPattern.test(inputTokens, (dbg != null));
 
-            if ((null != matchPatternResult) && (matchPatternResult.Success))
-                successfulMatches.add(matchPatternResult);
+            if ((null != patternMatch) && (patternMatch.Success))
+                successfulMatches.add(patternMatch);
 
             if(null != dbg)
-                dbg.addPatternMatchResult(matchPatternResult);
+                dbg.addPatternMatchResult(patternMatch);
         }
 
         return successfulMatches;
@@ -70,26 +70,31 @@ public class QueryParser {
 
         Predicate unit_2 = new Predicate("unit", (s, t) -> TokenParserHelpers.unit2(s, t));
 
-        _patterns = new ArrayList<MatchPattern>();
+        _patterns = new ArrayList<Pattern>();
 
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, unit_2, city_2, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, unit_2, city_2, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_1, street_suffix_1, unit_2, city_2, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_1, street_suffix_1, unit_2, city_1, state_1, zip_1}));
 
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_1, state_1, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_2, state_1, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_1, state_2, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_2, state_2, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_1, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_2, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_1, state_2, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_direction_1, street_1, street_suffix_1, city_2, state_2, zip_1}));
 
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_2, street_suffix_1, city_2, state_1, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_1, street_suffix_1, city_1, state_1, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{street_no_1, street_1, street_suffix_1, city_2, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_2, street_suffix_1, city_2, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_1, street_suffix_1, city_1, state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{street_no_1, street_1, street_suffix_1, city_2, state_1, zip_1}));
 
-        _patterns.add(new MatchPattern(new Predicate[]{state_1, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{state_2, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{state_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{state_2, zip_1}));
 
-        _patterns.add(new MatchPattern(new Predicate[]{city_1, zip_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{city_2, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{city_1, zip_1}));
+        _patterns.add(new Pattern(new Predicate[]{city_2, zip_1}));
 
-        _patterns.add(new MatchPattern(new Predicate[]{state_1}));
-        _patterns.add(new MatchPattern(new Predicate[]{state_2}));
+        _patterns.add(new Pattern(new Predicate[]{state_1}));
+        _patterns.add(new Pattern(new Predicate[]{state_2}));
+
+        _patterns.add(new Pattern(new Predicate[]{city_1}));
+        _patterns.add(new Pattern(new Predicate[]{city_2}));
     }
 }
