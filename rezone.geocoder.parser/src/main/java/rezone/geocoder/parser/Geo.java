@@ -13,8 +13,8 @@ public class Geo {
     public String state;
     public String zip;
 
-    public Geo(MatchResult match) {
-        for (PredicateMatch currPredicateMatch : match.PatternMatches) {
+    public Geo(MatchPatternResult match) {
+        for (PredicateMatch currPredicateMatch : match.getMatches()) {
             switch (currPredicateMatch.Name) {
                 case "address_line":
                     address_line = String.join(" ", currPredicateMatch.Tokens);
