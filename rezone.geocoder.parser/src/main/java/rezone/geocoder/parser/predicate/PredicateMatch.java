@@ -1,4 +1,6 @@
-package rezone.geocoder.parser;
+package rezone.geocoder.parser.predicate;
+
+import rezone.geocoder.parser.InputTokens;
 
 import java.util.*;
 

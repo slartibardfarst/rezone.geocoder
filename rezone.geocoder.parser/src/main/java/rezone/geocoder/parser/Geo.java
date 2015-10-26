@@ -1,6 +1,9 @@
 package rezone.geocoder.parser;
 
 
+import rezone.geocoder.parser.patterns.PatternMatch;
+import rezone.geocoder.parser.predicate.PredicateMatch;
+
 public class Geo {
     public String address_line;
     public String street_no;

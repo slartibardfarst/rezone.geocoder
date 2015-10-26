@@ -1,4 +1,4 @@
-package rezone.geocoder.parser;
+package rezone.geocoder.parser.predicate;
 
 @FunctionalInterface
 public interface Pred_2 {

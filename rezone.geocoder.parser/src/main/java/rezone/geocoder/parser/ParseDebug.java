@@ -1,5 +1,7 @@
 package rezone.geocoder.parser;
 
+import rezone.geocoder.parser.patterns.PatternMatch;
+
 import java.util.ArrayList;
 import java.util.List;
 
