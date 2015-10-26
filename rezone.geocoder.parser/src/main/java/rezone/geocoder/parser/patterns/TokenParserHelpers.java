@@ -1,4 +1,4 @@
-package rezone.geocoder.parser;
+package rezone.geocoder.parser.patterns;
 
 import java.util.ArrayList;
 import java.util.HashSet;

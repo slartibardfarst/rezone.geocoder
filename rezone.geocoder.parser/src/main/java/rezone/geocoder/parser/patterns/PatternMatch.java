@@ -1,4 +1,7 @@
-package rezone.geocoder.parser;
+package rezone.geocoder.parser.patterns;
+
+import rezone.geocoder.parser.predicate.Predicate;
+import rezone.geocoder.parser.predicate.PredicateMatch;
 
 import java.util.*;
 
@@ -8,19 +11,19 @@ import java.util.*;
 public class PatternMatch {
     public boolean Success;
     public boolean TokenCountMatch;
-    public rezone.geocoder.parser.Pattern Pattern;
+    public rezone.geocoder.parser.patterns.Pattern Pattern;
     private String _patternId;
     private List<PredicateMatch> _predicateMatches;
     private Predicate _firstFailedPredicate;
 
 
-    public PatternMatch(rezone.geocoder.parser.Pattern pattern) {
+    public PatternMatch(rezone.geocoder.parser.patterns.Pattern pattern) {
         Success = false;
         Pattern = pattern;
         _patternId = pattern.getPatternId();
     }
 
-    public PatternMatch(rezone.geocoder.parser.Pattern pattern, boolean tokenCountMatch) {
+    public PatternMatch(rezone.geocoder.parser.patterns.Pattern pattern, boolean tokenCountMatch) {
         Success = false;
         TokenCountMatch = tokenCountMatch;
         Pattern = pattern;

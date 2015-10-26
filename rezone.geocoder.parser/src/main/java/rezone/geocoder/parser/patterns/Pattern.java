@@ -1,4 +1,10 @@
-package rezone.geocoder.parser;
+package rezone.geocoder.parser.patterns;
+
+import rezone.geocoder.parser.InputTokens;
+import rezone.geocoder.parser.predicate.Predicate;
+import rezone.geocoder.parser.predicate.PredicateMatch;
+
+import java.util.List;
 
 /**
  * A Pattern is an ordered list of predicates that captures one possible address pattern.
@@ -7,10 +13,16 @@ package rezone.geocoder.parser;
  */
 public class Pattern {
 
+    private String _name;
     private int _numTokens;
     private Predicate[] _predicates;
     private String _patternId;
 
+
+    public Pattern(String name, List<Predicate> predicates) {
+        this((Predicate[]) predicates.toArray());
+        _name = name;
+    }
 
     public Pattern(Predicate[] predicates) {
         _predicates = predicates;
