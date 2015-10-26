@@ -8,6 +8,9 @@ import io.searchbox.core.SearchResult;
 import io.searchbox.indices.CreateIndex;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
+import rezone.geocoder.api.endpoints.search.scenarios.NeighborhoodCityCounty;
+import rezone.geocoder.parser.Geo;
+import rezone.geocoder.parser.QueryParser;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,11 +25,17 @@ public class SearchEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String foo(@QueryParam(value="query") String query) throws IOException {
-        BsonDocument doc =
-                new BsonDocument()
-                    .append("type", new BsonString("search"))
-                    .append("message", new BsonString("hello world"))
-                    .append("query", new BsonString(query));
+
+        // todo: dependency injection
+        QueryParser queryParser = new QueryParser();
+        NeighborhoodCityCounty neighborhoodCityCounty = new NeighborhoodCityCounty();
+
+        Geo[] geos = queryParser.parse(query);
+
+
+
+        BsonDocument esQuery = neighborhoodCityCounty.getQuery(geos);
+
 
         JestClientFactory factory = new JestClientFactory();
         factory.setHttpClientConfig(
@@ -37,38 +46,7 @@ public class SearchEndpoint {
 
         JestClient client = factory.getObject();
 
-        client.execute(new CreateIndex.Builder("geocoder6").build());
-
-        String esquery = "{\n" +
-                "  \"query\": {\n" +
-                "    \"bool\": {\n" +
-                "      \"must\":[\n" +
-                "        {\n" +
-                "          \"term\":{\n" +
-                "            \"sc\":\"wv\"\n" +
-                "          }\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"match\": {\n" +
-                "            \"city_full\": \"NW Fairview\"\n" +
-                "          }\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"match\": {\n" +
-                "            \"street_full\": \"Hamilton St\"\n" +
-                "          }\n" +
-                "        }\n" +
-                "      ],\n" +
-                "      \"should\":[\n" +
-                "        {\n" +
-                "          \"term\": {\n" +
-                "            \"address_street_number_exact\": \"112\"\n" +
-                "          }\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  }\n" +
-                "}";
+        String esquery = esQuery.toJson();
 
 
         Search search = new Search.Builder(esquery)
