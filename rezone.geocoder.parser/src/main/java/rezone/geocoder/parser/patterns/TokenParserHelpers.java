@@ -40,6 +40,8 @@ public class TokenParserHelpers {
             add("georgia");
             add("co");
             add("colorado");
+            add("wv");
+            add("west virginia");
         }};
 
         _streetSuffixes = new HashSet<String>() {{

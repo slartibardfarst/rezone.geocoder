@@ -74,8 +74,9 @@ public class QueryParserTests {
 
     @Test
     @Parameters({
-            "100 Lincoln Rd # 448; Miami Beach; FL 33139       | [{ address_line: '100 Lincoln Rd # 448'; street_no: '100'; street_direction: null;  street: 'Lincoln'; street_suffix: 'Rd'; street_post_direction: null; city: 'Miami Beach'; state: 'FL'; zip: '33139'; unit: '# 448' }]",
-            "851 Mink Lane Unit 1-2;Fraser;CO;80442          | [{ address_line: '851 Mink Lane Unit 102'; street_no: '851'; street_direction: null;  street: 'Mink'; street_suffix: 'Lane'; street_post_direction: null; city: 'Fraser'; state: 'CO'; zip: '80442'; unit: 'Unit 1-2' }]",
+            "100 Lincoln Rd # 448; Miami Beach; FL 33139 | [{ address_line: '100 Lincoln Rd # 448'; street_no: '100'; street_direction: null;  street: 'Lincoln'; street_suffix: 'Rd'; street_post_direction: null; city: 'Miami Beach'; state: 'FL'; zip: '33139'; unit: '# 448' }]",
+            "851 Mink Lane Unit 1-2;Fraser;CO;80442      | [{ address_line: '851 Mink Lane Unit 102'; street_no: '851'; street_direction: null;  street: 'Mink'; street_suffix: 'Lane'; street_post_direction: null; city: 'Fraser'; state: 'CO'; zip: '80442'; unit: 'Unit 1-2' }]",
+            "112 Hamilton St Fairview WV 26570           | [{ address_line: '112 Hamilton St'; street_no: '112'; street_direction: null;  street: 'Hamilton'; street_suffix: 'St'; street_post_direction: null; city: 'Fairview'; state: 'WV'; zip: '26570'; unit: null }]"
     })
     public void qaAcceptanceTests(String input, String  expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");

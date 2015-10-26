@@ -11,9 +11,18 @@ public class PatternManager {
 
     private static String getRulesFromUser() {
         String s = "";
-        s += "address :- city, state, zip;";
+        s += "address :- address_line, city, state, zip;";
 
-        //terminal symbols
+        s += "address_line :- street_number, street;";
+        s += "street :- street_name, street_suffix;";
+        s += "street :- predirectional, street_name, street_suffix;";
+
+        //terminal symbol
+        s += "street_number :- street_no/1;";
+        s += "street_name :- street/1;";
+        s += "street_suffix :- street_suffix/1;";
+        s += "predirectional :- directional/1;";
+
         s += "city :- city/1;";
         s += "city :- city/2;";
         s += "state :- state/1;";
@@ -27,7 +36,7 @@ public class PatternManager {
         Map<String, Predicate> result = new HashMap<String, Predicate>();
 
         result.put("street_no/1", new Predicate("street_no", (s) -> TokenParserHelpers.streetNumber1(s)));
-        result.put("street_direction/1", new Predicate("street_direction", (s) -> TokenParserHelpers.directional1(s)));
+        result.put("directional/1", new Predicate("directional", (s) -> TokenParserHelpers.directional1(s)));
         result.put("street/1", new Predicate("street", (s) -> TokenParserHelpers.streetName1(s)));
         result.put("street/2", new Predicate("street", (s, t) -> TokenParserHelpers.streetName2(s, t)));
         result.put("street_suffix/1", new Predicate("street_suffix", (s) -> TokenParserHelpers.streetSuffix1(s)));
@@ -155,7 +164,7 @@ public class PatternManager {
     }
 
 
-    public static List<Pattern> listPatterns2() {
+    public static List<Pattern> setupPatterns() {
 
         //a rule has a name and a list of symbols
         //a symbol is a name of a rule or the name of a predicate
@@ -172,7 +181,7 @@ public class PatternManager {
     }
 
 
-    public static List<Pattern> setupPatterns() {
+/*    public static List<Pattern> setupPatterns() {
         List<Pattern> patterns = new ArrayList<>();
 
         Predicate street_no_1 = new Predicate("street_no", (s) -> TokenParserHelpers.streetNumber1(s));
@@ -219,7 +228,7 @@ public class PatternManager {
         patterns.add(new Pattern("state", new Predicate[]{state_2, zip_1}));
 
         return patterns;
-    }
+    }*/
 
     public static class PatternManagerTestClass {
         public static List<ProductionRule> testListRules(String rulesString) {
@@ -229,7 +238,7 @@ public class PatternManager {
 
 
         public static List<Pattern> testListPatterns() {
-            return listPatterns2();
+            return setupPatterns();
         }
     }
 }
