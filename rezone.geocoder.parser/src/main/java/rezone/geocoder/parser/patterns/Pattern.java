@@ -19,12 +19,8 @@ public class Pattern {
     private String _patternId;
 
 
-    public Pattern(String name, List<Predicate> predicates) {
-        this((Predicate[]) predicates.toArray());
+    public Pattern(String name, Predicate[] predicates) {
         _name = name;
-    }
-
-    public Pattern(Predicate[] predicates) {
         _predicates = predicates;
 
         //compute the number of input tokens this Pattern will process

@@ -21,13 +21,13 @@ public class PatternManagerTest extends TestCase {
         s += "city :- city/2;";
         s += "zip  :- zip/1;";
 
-        List<ProductionRule> rules =  PatternManager.PatternManagerTestClass.testListRules(s);
+        List<ProductionRule> rules = PatternManager.PatternManagerTestClass.testListRules(s);
         assertEquals(4, rules.size());
     }
 
     @Test
     public void testExpandRules() throws Exception {
-
-       assertTrue(true);
+        PatternManager.PatternManagerTestClass.testListPatterns();
+        assertTrue(true);
     }
 }
