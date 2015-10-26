@@ -1,5 +1,9 @@
 package rezone.geocoder.parser;
 
+import rezone.geocoder.parser.patterns.Pattern;
+import rezone.geocoder.parser.patterns.PatternManager;
+import rezone.geocoder.parser.patterns.PatternMatch;
+
 import java.util.*;
 
 
