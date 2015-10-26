@@ -15,7 +15,7 @@ import java.util.List;
 public class NeighborhoodCityCounty {
     public BsonDocument getQuery(Geo[] components) {
 
-        Geo component = components[0];
+        final Geo component = components[0];
 
         List<BsonValue> regions = new ArrayList<BsonValue>() {{
             add(new BsonString(component.city));
