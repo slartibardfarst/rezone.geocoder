@@ -4,7 +4,21 @@ package rezone.geocoder.parser;
 import rezone.geocoder.parser.patterns.PatternMatch;
 import rezone.geocoder.parser.predicate.PredicateMatch;
 
+
+
 public class Geo {
+    public enum GeoType {
+        ADDRESS,
+        STREET,
+        NEIGHBORHOOD,
+        CITY,
+        COUNTY,
+        STATE,
+        ZIP,
+        UNKNOWN
+    }
+
+    public GeoType geo_type;
     public String address_line;
     public String street_no;
     public String street_direction;
@@ -19,6 +33,8 @@ public class Geo {
     public String zip;
 
     public Geo(PatternMatch match) {
+        geo_type = parseGeoType(match);
+
         for (PredicateMatch currPredicateMatch : match.getMatches()) {
             switch (currPredicateMatch.Name) {
                 case "address_line":
@@ -84,6 +100,7 @@ public class Geo {
 
         Geo o = (Geo) obj;
         boolean same = true;
+        same = same && (geo_type == o.geo_type);
         //same = same && (address_line .equals( o.address_line));
         same = same && ((null == street_no) || (street_no.equalsIgnoreCase(o.street_no)));
         same = same && ((null == street_direction) || (street_direction.equalsIgnoreCase(o.street_direction)));
@@ -98,5 +115,17 @@ public class Geo {
         same = same && ((null == zip) || (zip.equalsIgnoreCase(o.zip)));
 
         return same;
+    }
+
+    private GeoType parseGeoType(PatternMatch match)
+    {
+        switch(match.Pattern.getName().toLowerCase().trim())
+        {
+            case "address":
+                return GeoType.ADDRESS;
+
+            default:
+                return GeoType.UNKNOWN;
+        }
     }
 }

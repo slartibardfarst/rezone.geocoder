@@ -18,6 +18,13 @@ public class Pattern {
     private Predicate[] _predicates;
     private String _patternId;
 
+    public int getNumTokens() {
+        return _numTokens;
+    }
+    public String getPatternId() {
+        return _patternId;
+    }
+    public String getName() { return _name; }
 
     public Pattern(String name, Predicate[] predicates) {
         _name = name;
@@ -32,13 +39,7 @@ public class Pattern {
     }
 
 
-    public int getNumTokens() {
-        return _numTokens;
-    }
 
-    public String getPatternId() {
-        return _patternId;
-    }
 
     /**
      * check the input tokens against the predicates of this pattern
