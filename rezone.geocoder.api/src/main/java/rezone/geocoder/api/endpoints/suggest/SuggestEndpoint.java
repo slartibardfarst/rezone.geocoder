@@ -1,4 +1,4 @@
-package rezone.geocoder.endpoints.suggest;
+package rezone.geocoder.api.endpoints.suggest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

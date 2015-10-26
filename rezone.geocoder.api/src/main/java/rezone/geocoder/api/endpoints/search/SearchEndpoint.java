@@ -1,4 +1,4 @@
-package rezone.geocoder.endpoints.search;
+package rezone.geocoder.api.endpoints.search;
 
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;

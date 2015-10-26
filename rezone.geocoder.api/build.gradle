@@ -1,4 +1,12 @@
 apply plugin: 'java'
+apply plugin: 'application'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'rezone.geocoder.Main'
+    System.console().println("mainClass: " +ext.mainClass);
+} else {
+    System.console().println("no mainClass property");
+}
 
 repositories {
     mavenCentral()
@@ -13,8 +21,8 @@ dependencies {
     compile project(':rezone.geocoder.parser')
 
     testCompile 'junit:junit:4.12'
-
-
 }
+
+mainClassName = 'rezone.geocoder.Main'
 
 
