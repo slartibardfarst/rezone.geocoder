@@ -36,8 +36,8 @@ WORKDIR /data/app
 RUN git clone https://bb54503d3da64ef1f73709ad130dd5a2f887323a:x-oauth-basic@github.com/MoveInc/rezone.geocoder.git
 
 # build and deploy
-WORKDIR /data/app/rezone.geocoder/rezone.geocoder.api
-RUN gradle build
+WORKDIR /data/app/rezone.geocoder
+CMD ["gradle", "run"]
 
 
 
