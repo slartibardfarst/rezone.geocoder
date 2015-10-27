@@ -19,11 +19,18 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
+import com.wordnik.swagger.annotations.*;
+
 @Path("search")
+@Api(value = "/search", description = "Parses an Address for you")
 public class SearchEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(
+            value = "Parses an Address for you",
+            notes = "returns an array of found addresses"
+    )
     public String foo(@QueryParam(value="query") String query) throws IOException {
 
         // todo: dependency injection
@@ -31,7 +38,6 @@ public class SearchEndpoint {
         NeighborhoodCityCounty neighborhoodCityCounty = new NeighborhoodCityCounty();
 
         Geo[] geos = queryParser.parse(query);
-
 
 
         BsonDocument esQuery = neighborhoodCityCounty.getQuery(geos);
