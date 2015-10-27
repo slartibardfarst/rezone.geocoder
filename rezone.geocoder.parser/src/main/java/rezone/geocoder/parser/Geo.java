@@ -132,6 +132,10 @@ public class Geo {
             case "city":
                 return GeoType.CITY;
 
+            case "county_geo":
+            case "county":
+                return GeoType.COUNTY;
+
             case "state_geo":
             case "state":
                 return GeoType.STATE;

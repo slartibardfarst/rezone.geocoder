@@ -11,13 +11,23 @@ public class PatternManager {
 
     private static String getRulesFromUser() {
         String s = "";
+
+        //top-level rules
         s += "address :- address_line, city, state, zip;";
-        s += "city_geo :- city, state;";
-        s += "state_geo :- state;";
+
         s += "street_geo :- street, city, state, zip;";
         s += "street_geo :- street, city, state;";
+
+        s += "city_geo :- city, state;";
+
+        s += "state_geo :- state;";
+
+        s += "county_geo :- county_name;";
+        s += "county_geo :- county_name, state;";
+
         s += "zip_geo :- zip;";
 
+        //non-terminals
         s += "address_line :- street_number, street;";
         s += "address_line :- street_number, street, unit;";
 
@@ -30,13 +40,14 @@ public class PatternManager {
         s += "street_name :- street/2;";
         s += "street_suffix :- street_suffix/1;";
         s += "predirectional :- directional/1;";
-
         s += "city :- city/1;";
         s += "city :- city/2;";
         s += "state :- state/1;";
         s += "state :- state/2;";
         s += "zip  :- zip/1;";
         s += "unit :- unit/2;";
+        s += "county_name :- county/2;";
+        s += "county_name :- county/3;";
 
         return s;
     }
@@ -55,6 +66,8 @@ public class PatternManager {
         result.put("state/2", new Predicate("state", (s, t) -> TokenParserHelpers.state2(s, t)));
         result.put("zip/1", new Predicate("zip", s -> TokenParserHelpers.zip1(s)));
         result.put("unit/2", new Predicate("unit", (s, t) -> TokenParserHelpers.unit2(s, t)));
+        result.put("county/2", new Predicate("county", (s, t) -> TokenParserHelpers.county2(s, t)));
+        result.put("county/3", new Predicate("county", (s, t, u) -> TokenParserHelpers.county3(s, t, u)));
 
         return result;
     }

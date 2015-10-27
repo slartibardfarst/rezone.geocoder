@@ -102,15 +102,16 @@ public class TokenParserHelpers {
     }
 
     public static boolean city1(String s) {
-
         return s.toLowerCase().matches("[a-z]+") &&
-                !state1(s);
+                !state1(s) &&
+                (!s.equalsIgnoreCase("county"));
     }
 
     public static boolean city2(String s, String t) {
         return s.toLowerCase().matches("[a-z]+") &&
                 t.toLowerCase().matches("[a-z]+") &&
-                !state2(s, t);
+                !state2(s, t) &&
+                (!t.equalsIgnoreCase("county"));
     }
 
     public static boolean zip1(String s) {
@@ -134,7 +135,8 @@ public class TokenParserHelpers {
     }
 
 
-    public static boolean unit2(String s, String t) {
-        return _unitDescriptors.contains(s.toLowerCase()) && t.matches("\\d+-?\\w*");
-    }
+    public static boolean unit2(String s, String t) {return _unitDescriptors.contains(s.toLowerCase()) && t.matches("\\d+-?\\w*"); }
+
+    public static boolean county2(String s, String t) {return s.toLowerCase().matches("[a-z]+") && t.equalsIgnoreCase("county");}
+    public static boolean county3(String s, String t, String u) {return s.toLowerCase().matches("[a-z]+") && t.toLowerCase().matches("[a-z]+") && u.equalsIgnoreCase("county");}
 }

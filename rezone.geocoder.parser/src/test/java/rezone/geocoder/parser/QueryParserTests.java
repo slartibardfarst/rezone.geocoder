@@ -145,11 +145,10 @@ public class QueryParserTests {
     }
 
 
-   /* // Geos specific unit test for match method type = 'county'
+    // Geos specific unit test for match method type = 'county'
     @Test
     @Parameters({
-            "Reagan county; TX | [{ address_line: null; street_no: null; street_direction: null;  street: null; street_suffix:null; street_post_direction: null; city: 'Anderson'; state: 'TX'; zip:null; unit: null; county: 'Reagan county'; geo_type: COUNTY}]"
-
+            "Reagan county; TX | [{ geo_type: COUNTY; state: 'TX'; county: 'Reagan county'}]"
     })
     public void qaMatchMethodCountyTest(String input, String  expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -162,7 +161,7 @@ public class QueryParserTests {
         assertNotNull("Parser response is null", actual);
         assertEquals(1, actual.length);
         assertTrue(input, actual[0].equals(expected[0]));
-    }*/
+    }
 
     /*// Geos specific unit test for match method type = 'Neighborhood'
     @Test
