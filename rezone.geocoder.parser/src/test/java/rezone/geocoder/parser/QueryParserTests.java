@@ -110,7 +110,8 @@ public class QueryParserTests {
     // Geos unit test for specific match method type = 'street'
     @Test
     @Parameters({
-            "Thomas Welborn Rd; Anderson; SC | [{ geo_type: STREET; street: 'Thomas Welborn'; street_suffix: 'Rd'; city: 'Anderson'; state: 'SC'}]"
+            "Thomas Welborn Rd; Anderson; SC | [{ geo_type: STREET; street: 'Thomas Welborn'; street_suffix: 'Rd'; city: 'Anderson'; state: 'SC'}]",
+            "Los Angeles; CA | [{ geo_type: CITY; address_line: null; street_no: null; street_direction: null;  street: null; street_suffix:null; street_post_direction: null; city: 'Los Angeles'; state: 'CA'; zip:null; unit: null }]"
     })
     public void qaMatchMethodStreetUnitTest(String input, String  expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -142,4 +143,43 @@ public class QueryParserTests {
         assertEquals(1, actual.length);
         assertTrue(input, actual[0].equals(expected[0]));
     }
+
+
+   /* // Geos specific unit test for match method type = 'county'
+    @Test
+    @Parameters({
+            "Reagan county; TX | [{ address_line: null; street_no: null; street_direction: null;  street: null; street_suffix:null; street_post_direction: null; city: 'Anderson'; state: 'TX'; zip:null; unit: null; county: 'Reagan county'; geo_type: COUNTY}]"
+
+    })
+    public void qaMatchMethodCountyTest(String input, String  expectedAsJson) throws Exception {
+        input = input.replaceAll(";|\\.", ",");
+        expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
+
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input, dbg);
+        Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
+
+        assertNotNull("Parser response is null", actual);
+        assertEquals(1, actual.length);
+        assertTrue(input, actual[0].equals(expected[0]));
+    }*/
+
+    /*// Geos specific unit test for match method type = 'Neighborhood'
+    @Test
+    @Parameters({
+            "Bellrose Park; Tampa; FL | [{ address_line: null; street_no: null; street_direction: null;  street: null; street_suffix:null; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null; neighborhood:'Bellrose Park'; geo_type: NEIGHBORHOOD}]"
+
+    })
+    public void qaMatchMethodNeighborhoodTest(String input, String  expectedAsJson) throws Exception {
+        input = input.replaceAll(";|\\.", ",");
+        expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
+
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input, dbg);
+        Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
+
+        assertNotNull("Parser response is null", actual);
+        assertEquals(1, actual.length);
+        assertTrue(input, actual[0].equals(expected[0]));
+    }*/
 }
