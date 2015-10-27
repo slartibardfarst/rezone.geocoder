@@ -27,7 +27,19 @@ public class PatternManagerTest extends TestCase {
 
     @Test
     public void testExpandRules() throws Exception {
-        PatternManager.PatternManagerTestClass.testListPatterns();
-        assertTrue(true);
+
+        String s = "";
+        s += "address :- city, state, zip;";
+        s += "city_geo :- city, state;";
+
+        //terminal symbols
+        s += "city :- city/1;";
+        s += "city :- city/2;";
+        s += "state :- state/1;";
+        s += "state :- state/2;";
+        s += "zip  :- zip/1;";
+
+        List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
+        assertEquals(8, actualPatterns.size());
     }
 }

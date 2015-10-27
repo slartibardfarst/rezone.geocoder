@@ -124,6 +124,22 @@ public class Geo {
             case "address":
                 return GeoType.ADDRESS;
 
+            case "street_geo":
+            case "street":
+                return GeoType.STREET;
+
+            case "city_geo":
+            case "city":
+                return GeoType.CITY;
+
+            case "state_geo":
+            case "state":
+                return GeoType.STATE;
+
+            case "zip_geo":
+            case "zip":
+                return GeoType.ZIP;
+
             default:
                 return GeoType.UNKNOWN;
         }

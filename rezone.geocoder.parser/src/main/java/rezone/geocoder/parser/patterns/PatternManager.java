@@ -12,6 +12,11 @@ public class PatternManager {
     private static String getRulesFromUser() {
         String s = "";
         s += "address :- address_line, city, state, zip;";
+        s += "city_geo :- city, state;";
+        s += "state_geo :- state;";
+        s += "street_geo :- street, city, state, zip;";
+        s += "street_geo :- street, city, state;";
+        s += "zip_geo :- zip;";
 
         s += "address_line :- street_number, street;";
         s += "address_line :- street_number, street, unit;";
@@ -19,7 +24,7 @@ public class PatternManager {
         s += "street :- street_name, street_suffix;";
         s += "street :- predirectional, street_name, street_suffix;";
 
-        //terminal symbol
+        //terminal symbols
         s += "street_number :- street_no/1;";
         s += "street_name :- street/1;";
         s += "street_name :- street/2;";
@@ -112,7 +117,9 @@ public class PatternManager {
         for (int i = iSymbol + 1; i < source.getSymbols().size(); i++)
             expandedSymbols.add(source.getSymbols().get(i));
 
-        return new ProductionRule(source.getName(), expandedSymbols);
+        ProductionRule expandedRule = new ProductionRule(source);
+        expandedRule.setSymbols(expandedSymbols);
+        return expandedRule;
     }
 
     private static List<ProductionRule> deduplicateRules(List<ProductionRule> rulesWithDuplicates) {
@@ -150,6 +157,9 @@ public class PatternManager {
             if (!currTerminalRule.getIsTerminal())
                 continue;
 
+            if (!currTerminalRule.getIsTopLevel())
+                continue;
+
             List<Predicate> currRulePredicates = new ArrayList<>();
             for (String currSymbol : currTerminalRule.getSymbols()) {
                 Predicate p = predicates.getOrDefault(currSymbol, null);
@@ -167,6 +177,28 @@ public class PatternManager {
         return result;
     }
 
+    private static void markTopLevelRules(List<ProductionRule> rules)
+    {
+        for(ProductionRule currRule: rules)
+        {
+            String currRuleName =  currRule.getName();
+            boolean foundInAnotherRule = false; //default
+            for(ProductionRule otherRule: rules) {
+                for (String currOtherRuleSymbol : otherRule.getSymbols()) {
+                    if (currRuleName.equalsIgnoreCase(currOtherRuleSymbol)) {
+                        foundInAnotherRule = true;
+                        break;
+                    }
+                }
+
+                if (foundInAnotherRule)
+                    break;
+            }
+
+            currRule.setIsTopLevel(!foundInAnotherRule);
+        }
+    }
+
 
     public static List<Pattern> setupPatterns() {
 
@@ -178,6 +210,7 @@ public class PatternManager {
 
         Map<String, Predicate> predicates = definePredicates();
         List<ProductionRule> rules = defineRules();
+        markTopLevelRules(rules);
         List<ProductionRule> expandedRules = expandRules(rules);
         List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
 
@@ -241,8 +274,13 @@ public class PatternManager {
         }
 
 
-        public static List<Pattern> testListPatterns() {
-            return setupPatterns();
+        public static List<Pattern> testListPatterns(String rulesString) {
+            Map<String, Predicate> predicates = definePredicates();
+            List<ProductionRule> rules = defineRules(rulesString);
+            markTopLevelRules(rules);
+            List<ProductionRule> expandedRules = expandRules(rules);
+            List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
+            return patterns;
         }
     }
 }
