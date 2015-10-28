@@ -3,6 +3,8 @@ package rezone.geocoder.parser.patterns;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by awatkins on 15-10-24.
@@ -13,6 +15,7 @@ public class ProductionRule {
     private List<String> _symbols;
     private boolean _isTerminal;
     private boolean _isTopLevelRule;
+    private static Pattern _pattern = Pattern.compile("\\[*\\s*(\\w+)\\s*\\]*");
 
     public String getName() {
         return _name;
@@ -50,7 +53,7 @@ public class ProductionRule {
                 break;
             }
 
-        _id = generateRuleId();
+        regenerateRuleId();
     }
 
     public ProductionRule(ProductionRule src) {
@@ -70,12 +73,55 @@ public class ProductionRule {
         setSymbols(symbols);
     }
 
+    public boolean isOptionalSymbol(String s)
+    {
+        return s.matches("\\[\\w+\\]");
+    }
+
+    public boolean containsOptionSymbols()
+    {
+        if(null != _symbols)
+            for(String currSymbol: _symbols)
+                if(isOptionalSymbol(currSymbol))
+                    return true;
+
+        return false;
+    }
+
+    public boolean nthSymbolIsOptional(int n)
+    {
+        if((null != _symbols) && (_symbols.size() > n))
+            return isOptionalSymbol(_symbols.get(n));
+
+        return false;
+    }
+
+    public void removeNthSymbol(int n)
+    {
+        if((null != _symbols) && (_symbols.size() > n))
+            _symbols.remove(n);
+
+        regenerateRuleId();
+    }
+
+    public void makeNthSymbolNotOptional(int n)
+    {
+        if((null != _symbols) && (_symbols.size() > n)) {
+            String symbol = _symbols.get(n);
+
+            Matcher matcher = _pattern.matcher(symbol);
+            if(matcher.find())
+                _symbols.set(n, matcher.group(1));
+        }
+
+        regenerateRuleId();
+    }
 
     public static boolean isSymbolTerminal(String symbol) {
         return symbol.contains("/");
     }
 
-    private String generateRuleId() {
+    private void regenerateRuleId() {
         StringBuilder sb = new StringBuilder();
         sb.append(_name.toLowerCase().trim());
         sb.append(":");
@@ -90,7 +136,7 @@ public class ProductionRule {
             sb.append(currSymbol.toLowerCase().trim());
         }
 
-        return sb.toString();
+        _id = sb.toString();
     }
 
 }

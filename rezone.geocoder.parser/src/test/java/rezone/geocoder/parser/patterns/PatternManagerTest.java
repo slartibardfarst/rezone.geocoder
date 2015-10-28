@@ -42,4 +42,40 @@ public class PatternManagerTest extends TestCase {
         List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
         assertEquals(8, actualPatterns.size());
     }
+
+    @Test
+    public void testOptionalSymbols1() throws Exception {
+
+        String s = "";
+        s += "address_line :- street_number, street, [unit];";
+
+        s += "street :- [directional], street_name, street_suffix, [directional];";
+
+        //terminal symbols
+        s += "street_number :- street_no/1;";
+        s += "street_name :- street/1;";
+        s += "street_name :- street/2;";
+        s += "street_suffix :- street_suffix/1;";
+        s += "directional :- directional/1;";
+        s += "unit :- unit/2;";
+
+        List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
+        assertEquals(8, actualPatterns.size());
+    }
+
+    @Test
+    public void testOptionalSymbols2() throws Exception {
+
+        String s = "";
+        s += "address_line :- street_number, street_name, [unit];";
+
+        //terminal symbols
+        s += "street_number :- street_no/1;";
+        s += "street_name :- street/1;";
+        s += "street_name :- street/2;";
+        s += "unit :- unit/2;";
+
+        List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
+        assertEquals(8, actualPatterns.size());
+    }
 }

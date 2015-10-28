@@ -89,6 +89,33 @@ public class PatternManager {
         return result;
     }
 
+    private static void expandOptionalSymbolsInRule(ProductionRule rule, List<ProductionRule> expandedAcc) {
+        if (!rule.containsOptionSymbols())
+            expandedAcc.add(rule);
+        else
+            for (int i = 0; i < rule.getSymbols().size(); i++) {
+                if (rule.nthSymbolIsOptional(i)) {
+                    ProductionRule copy1 = new ProductionRule(rule);
+                    ProductionRule copy2 = new ProductionRule(rule);
+                    copy1.removeNthSymbol(i);
+                    copy2.makeNthSymbolNotOptional(i);
+                    expandOptionalSymbolsInRule(copy1, expandedAcc);
+                    expandOptionalSymbolsInRule(copy2, expandedAcc);
+                }
+            }
+    }
+
+    private static List<ProductionRule> expandOptionalSymbolsInRules(List<ProductionRule> unexpandedRules) {
+        List<ProductionRule> result = new ArrayList<>();
+        for (ProductionRule currUnexpanded : unexpandedRules) {
+            List<ProductionRule> expanded = new ArrayList<>();
+            expandOptionalSymbolsInRule(currUnexpanded, expanded);
+            result.addAll(expanded);
+        }
+
+        return result;
+    }
+
     private static List<ProductionRule> expandRules(List<ProductionRule> rules) {
         List<ProductionRule> allTerminalSymbolsRules = new ArrayList<>();
         for (ProductionRule currRule : rules)
@@ -190,13 +217,11 @@ public class PatternManager {
         return result;
     }
 
-    private static void markTopLevelRules(List<ProductionRule> rules)
-    {
-        for(ProductionRule currRule: rules)
-        {
-            String currRuleName =  currRule.getName();
+    private static void markTopLevelRules(List<ProductionRule> rules) {
+        for (ProductionRule currRule : rules) {
+            String currRuleName = currRule.getName();
             boolean foundInAnotherRule = false; //default
-            for(ProductionRule otherRule: rules) {
+            for (ProductionRule otherRule : rules) {
                 for (String currOtherRuleSymbol : otherRule.getSymbols()) {
                     if (currRuleName.equalsIgnoreCase(currOtherRuleSymbol)) {
                         foundInAnotherRule = true;
@@ -290,8 +315,9 @@ public class PatternManager {
         public static List<Pattern> testListPatterns(String rulesString) {
             Map<String, Predicate> predicates = definePredicates();
             List<ProductionRule> rules = defineRules(rulesString);
-            markTopLevelRules(rules);
-            List<ProductionRule> expandedRules = expandRules(rules);
+            List<ProductionRule> expandedOptionals = expandOptionalSymbolsInRules(rules);
+            markTopLevelRules(expandedOptionals);
+            List<ProductionRule> expandedRules = expandRules(expandedOptionals);
             List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
             return patterns;
         }
