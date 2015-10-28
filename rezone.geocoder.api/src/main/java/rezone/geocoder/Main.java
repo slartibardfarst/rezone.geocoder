@@ -5,7 +5,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 
-import com.wordnik.swagger.jaxrs.config.*;
+//import com.wordnik.swagger.jaxrs.config.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,11 +30,11 @@ public class Main {
         final ResourceConfig rc = new ResourceConfig().packages(packages);
 
 
-        BeanConfig config = new BeanConfig();
-        config.setResourcePackage("rezone.geocoder");
-        config.setVersion("1.0.0");
-        config.setBasePath(BASE_URI);
-        config.setScan(true);
+//        BeanConfig config = new BeanConfig();
+//        config.setResourcePackage("rezone.geocoder");
+//        config.setVersion("1.0.0");
+//        config.setBasePath(BASE_URI);
+//        config.setScan(true);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
