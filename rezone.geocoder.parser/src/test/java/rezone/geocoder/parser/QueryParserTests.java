@@ -181,4 +181,25 @@ public class QueryParserTests {
         assertEquals(1, actual.length);
         assertTrue(input, actual[0].equals(expected[0]));
     }*/
+
+    // GEOV-329
+    @Test
+    @Parameters({
+            "S State Line Rd Pittsburg KS 64832    | 1 |  [{ geo_type: STREET; street_direction: 'S';  street: 'State Line'; street_suffix: 'Rd'; city: 'Pittsburg'; state: 'KS'; zip:'64832'}]",
+            "Fox AK                                | 1 |  [{ geo_type: CITY; city: 'Fox'; state: 'AK'}]",
+            "Clark county ID                       | 1 |  [{ geo_type: COUNTY; county: 'Clark county'; state: 'ID'}]",
+            "Ester Parks Highway West Fairbanks AK | 2 |  [{ geo_type: STREET; street: 'Ester Parks'; street_suffix: 'Highway'; city: 'West Fairbanks'; state: 'AK'};{ geo_type: STREET; street: 'Ester Parks'; street_suffix: 'Highway'; street_post_direction: 'West'; city: 'Fairbanks'; state: 'AK'}]"
+    })
+    public void GEOV329_tests(String input, int expectNumMatches, String  expectedAsJson) throws Exception {
+        input = input.replaceAll(";|\\.", ",");
+        expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
+
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input, dbg);
+        Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
+
+        assertNotNull("Parser response is null", actual);
+        assertEquals(expectNumMatches, actual.length);
+        assertTrue(input, actual[0].equals(expected[0]));
+    }
 }

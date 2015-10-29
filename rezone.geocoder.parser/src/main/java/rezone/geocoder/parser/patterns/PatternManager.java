@@ -32,14 +32,16 @@ public class PatternManager {
         s += "address_line :- street_number, street, unit;";
 
         s += "street :- street_name, street_suffix;";
-        s += "street :- predirectional, street_name, street_suffix;";
+        s += "street :- street_direction, street_name, street_suffix;";
+        s += "street :- street_name, street_suffix, street_post_direction;";
 
         //terminal symbols
         s += "street_number :- street_no/1;";
         s += "street_name :- street/1;";
         s += "street_name :- street/2;";
         s += "street_suffix :- street_suffix/1;";
-        s += "predirectional :- directional/1;";
+        s += "street_direction :- street_direction/1;";
+        s += "street_post_direction :- street_post_direction/1;";
         s += "city :- city/1;";
         s += "city :- city/2;";
         s += "state :- state/1;";
@@ -56,7 +58,8 @@ public class PatternManager {
         Map<String, Predicate> result = new HashMap<String, Predicate>();
 
         result.put("street_no/1", new Predicate("street_no", (s) -> TokenParserHelpers.streetNumber1(s)));
-        result.put("directional/1", new Predicate("directional", (s) -> TokenParserHelpers.directional1(s)));
+        result.put("street_direction/1", new Predicate("street_direction", (s) -> TokenParserHelpers.directional1(s)));
+        result.put("street_post_direction/1", new Predicate("street_post_direction", (s) -> TokenParserHelpers.directional1(s)));
         result.put("street/1", new Predicate("street", (s) -> TokenParserHelpers.streetName1(s)));
         result.put("street/2", new Predicate("street", (s, t) -> TokenParserHelpers.streetName2(s, t)));
         result.put("street_suffix/1", new Predicate("street_suffix", (s) -> TokenParserHelpers.streetSuffix1(s)));

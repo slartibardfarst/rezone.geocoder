@@ -16,37 +16,43 @@ public class TokenParserHelpers {
 
     static {
         _states = new HashSet<String>() {{
-            add("wa");
-            add("washington");
-            add("or");
-            add("oregon");
-            add("ca");
-            add("california");
-            add("tx");
-            add("texas");
+            add("ak");
+            add("alaska");
             add("az");
             add("arizona");
-            add("ny");
-            add("new york");
-            add("nh");
-            add("new hampshire");
-            add("nd");
-            add("north dakota");
-            add("fl");
-            add("florida");
-            add("nv");
-            add("nevada");
-            add("ga");
-            add("georgia");
+            add("ca");
+            add("california");
             add("co");
             add("colorado");
-            add("wv");
-            add("west virginia");
+            add("fl");
+            add("florida");
+            add("ga");
+            add("georgia");
+            add("id");
+            add("idaho");
             add("il");
             add("illinois");
+            add("ks");
+            add("kansas");
+            add("nd");
+            add("north dakota");
+            add("nh");
+            add("new hampshire");
+            add("nv");
+            add("nevada");
+            add("ny");
+            add("new york");
+            add("or");
+            add("oregon");
             add("sc");
             add("south carolina");
-        }};
+            add("tx");
+            add("texas");
+            add("wa");
+            add("washington");
+            add("wv");
+            add("west virginia");
+      }};
 
         _streetSuffixes = new HashSet<String>() {{
             add("st");
@@ -61,6 +67,7 @@ public class TokenParserHelpers {
             add("crescent");
             add("ln");
             add("lane");
+            add("highway");
         }};
 
         _directionals = new HashSet<String>() {{

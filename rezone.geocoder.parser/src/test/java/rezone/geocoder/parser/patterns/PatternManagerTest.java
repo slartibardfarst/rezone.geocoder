@@ -49,18 +49,19 @@ public class PatternManagerTest extends TestCase {
         String s = "";
         s += "address_line :- street_number, street, [unit];";
 
-        s += "street :- [directional], street_name, street_suffix, [directional];";
+        s += "street :- [street_direction], street_name, street_suffix, [street_post_direction];";
 
         //terminal symbols
         s += "street_number :- street_no/1;";
         s += "street_name :- street/1;";
         s += "street_name :- street/2;";
         s += "street_suffix :- street_suffix/1;";
-        s += "directional :- directional/1;";
+        s += "street_direction :- street_direction/1;";
+        s += "street_post_direction :- street_post_direction/1;";
         s += "unit :- unit/2;";
 
         List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
-        assertEquals(8, actualPatterns.size());
+        assertEquals(16, actualPatterns.size());
     }
 
     @Test
@@ -76,6 +77,6 @@ public class PatternManagerTest extends TestCase {
         s += "unit :- unit/2;";
 
         List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
-        assertEquals(8, actualPatterns.size());
+        assertEquals(4, actualPatterns.size());
     }
 }
