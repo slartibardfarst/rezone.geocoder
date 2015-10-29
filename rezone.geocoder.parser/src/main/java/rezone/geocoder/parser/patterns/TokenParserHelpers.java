@@ -101,7 +101,8 @@ public class TokenParserHelpers {
     }
 
     public static boolean streetNumber1(String s) {
-        return s.matches("\\d+");
+        return s.matches("\\d+") ||
+                s.matches("\\d+-\\d+");
     }
 
     //public static boolean streetName1(String s) {        return s.matches("\\d{0,3}?i:\\w+");    }

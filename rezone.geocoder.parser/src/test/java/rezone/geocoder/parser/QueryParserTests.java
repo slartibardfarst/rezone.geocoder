@@ -32,7 +32,7 @@ public class QueryParserTests {
     @Parameters({
             "7212 SUN COVE CR;Las Vegas;NV;89128       | [{ geo_type: ADDRESS; address_line: '7212 Sun Cove Cr'; street_no: '7212'; street_direction: null; street: 'Sun Cove'; street_suffix: 'Cr'; street_post_direction: null; city: 'Las Vegas'; state: 'NV'; zip: '89128'; unit: null }]"
     })
-    public void parseFullAddress(String input, String  expectedAsJson) throws Exception {
+    public void parseFullAddress(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -57,7 +57,7 @@ public class QueryParserTests {
             "CA                                   | [{ geo_type: STATE; state: 'CA' }]",
             "Grand canyon 86023                   | [{ geo_type: CITY; city: 'Grand canyon'; zip: '86023'  }]"
     })
-    public void addressitTests(String input, String  expectedAsJson) throws Exception {
+    public void addressitTests(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -76,7 +76,7 @@ public class QueryParserTests {
             "851 Mink Lane Unit 1-2;Fraser;CO;80442      | [{ geo_type: ADDRESS; address_line: '851 Mink Lane Unit 102'; street_no: '851'; street_direction: null;  street: 'Mink'; street_suffix: 'Lane'; street_post_direction: null; city: 'Fraser'; state: 'CO'; zip: '80442'; unit: 'Unit 1-2' }]",
             "112 Hamilton St Fairview WV 26570           | [{ geo_type: ADDRESS; address_line: '112 Hamilton St'; street_no: '112'; street_direction: null;  street: 'Hamilton'; street_suffix: 'St'; street_post_direction: null; city: 'Fairview'; state: 'WV'; zip: '26570'; unit: null }]"
     })
-    public void qaAcceptanceTests(String input, String  expectedAsJson) throws Exception {
+    public void qaAcceptanceTests(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -94,7 +94,7 @@ public class QueryParserTests {
     @Parameters({
             "Chicago; IL                          | [{ geo_type: CITY; city: 'Chicago'; state: 'IL' }]",
     })
-    public void qaMatchMethodCityUnitTest(String input, String  expectedAsJson) throws Exception {
+    public void qaMatchMethodCityUnitTest(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -113,7 +113,7 @@ public class QueryParserTests {
             "Thomas Welborn Rd; Anderson; SC | [{ geo_type: STREET; street: 'Thomas Welborn'; street_suffix: 'Rd'; city: 'Anderson'; state: 'SC'}]",
             "Los Angeles; CA | [{ geo_type: CITY; address_line: null; street_no: null; street_direction: null;  street: null; street_suffix:null; street_post_direction: null; city: 'Los Angeles'; state: 'CA'; zip:null; unit: null }]"
     })
-    public void qaMatchMethodStreetUnitTest(String input, String  expectedAsJson) throws Exception {
+    public void qaMatchMethodStreetUnitTest(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -131,7 +131,7 @@ public class QueryParserTests {
     @Parameters({
             "90210 | [{ geo_type: ZIP; zip: 90210 }]"
     })
-    public void qaMatchMethodZipUnitTest(String input, String  expectedAsJson) throws Exception {
+    public void qaMatchMethodZipUnitTest(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -150,7 +150,7 @@ public class QueryParserTests {
     @Parameters({
             "Reagan county; TX | [{ geo_type: COUNTY; state: 'TX'; county: 'Reagan county'}]"
     })
-    public void qaMatchMethodCountyTest(String input, String  expectedAsJson) throws Exception {
+    public void qaMatchMethodCountyTest(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -169,7 +169,7 @@ public class QueryParserTests {
             "Bellrose Park; Tampa; FL | [{ geo_type: STREET; address_line: null; street_no: null; street_direction: null;  street: 'Bellrose Park'; street_suffix:null; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null}]"
 
     })
-    public void qaMatchMethodNeighborhoodTest(String input, String  expectedAsJson) throws Exception {
+    public void qaMatchMethodNeighborhoodTest(String input, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -190,7 +190,28 @@ public class QueryParserTests {
             "Clark county ID                       | 1 |  [{ geo_type: COUNTY; county: 'Clark county'; state: 'ID'}]",
             "Ester Parks Highway West Fairbanks AK | 2 |  [{ geo_type: STREET; street: 'Ester Parks'; street_suffix: 'Highway'; city: 'West Fairbanks'; state: 'AK'};{ geo_type: STREET; street: 'Ester Parks'; street_suffix: 'Highway'; street_post_direction: 'West'; city: 'Fairbanks'; state: 'AK'}]"
     })
-    public void GEOV329_tests(String input, int expectNumMatches, String  expectedAsJson) throws Exception {
+    public void GEOV329_tests(String input, int expectNumMatches, String expectedAsJson) throws Exception {
+        input = input.replaceAll(";|\\.", ",");
+        expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
+
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input, dbg);
+        Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
+
+        assertNotNull("Parser response is null", actual);
+        assertEquals(expectNumMatches, actual.length);
+        assertTrue(input, actual[0].equals(expected[0]));
+    }
+
+    //first 3 from https://wiki.move.com/display/ps/Expected+variations+in+Street+Address+input+formatting
+    //With or without punctuation (e.g. no comma separators)
+    //Leading zeros in house number
+    //Special characters in house number (e.g. hyphen in Queens, NY addresses)
+    @Test
+    @Parameters({
+            "164-176 Rollstone Avenue;West Sayville;NY 11796    | 2 |  [{ geo_type: ADDRESS; street_no: '164-176'; street: 'Rollstone'; street_suffix: 'Avenue'; city: 'West Sayville'; state: 'NY'; zip:'11796'}]"
+    })
+    public void expectedStreetAddressVariationTests_1_to_3(String input, int expectNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
