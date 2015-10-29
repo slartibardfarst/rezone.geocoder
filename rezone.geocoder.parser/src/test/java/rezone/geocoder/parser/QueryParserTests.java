@@ -51,11 +51,11 @@ public class QueryParserTests {
             "123 Main St; New York; NY 10010      | [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
             "123 Main St New York. NY 10010       | [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
             "123 Main St New York NY 10010        | [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
-            //"123 E 21st st. Brooklyn NY 11020   | [{ geo_type: ADDRESS; address_line: '123 E 21st St'; street_no: '123'; street_direction: 'E'; street: '21st'; street_suffix: 'St'; street_post_direction: null; city: 'Brooklyn'; state: 'NY'; zip: '11020'; unit: null }]",
+            "123 E 21st st. Brooklyn NY 11020     | [{ geo_type: ADDRESS; address_line: '123 E 21st St'; street_no: '123'; street_direction: 'E'; street: '21st'; street_suffix: 'St'; street_post_direction: null; city: 'Brooklyn'; state: 'NY'; zip: '11020'; unit: null }]",
             "754 Pharr Rd. Atlanta. Georgia 31035 | [{ geo_type: ADDRESS; address_line: '754 Pharr Rd'; street_no: '754'; street: 'Pharr'; street_suffix: 'Rd'; city: 'Atlanta'; state: 'Georgia'; zip: '31035' }]",
-            //"Texas 76013                        | [{ state: 'Texas'; zip: '76013' }]",
+            "Texas 76013                          | [{ geo_type: STATE; state: 'Texas'; zip: '76013' }]",
             "CA                                   | [{ geo_type: STATE; state: 'CA' }]",
-            //"Grand canyon 86023                 | [{ city: 'Grand canyon'; zip: '86023'  }]"
+            "Grand canyon 86023                   | [{ geo_type: CITY; city: 'Grand canyon'; zip: '86023'  }]"
     })
     public void addressitTests(String input, String  expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -163,10 +163,10 @@ public class QueryParserTests {
         assertTrue(input, actual[0].equals(expected[0]));
     }
 
-    /*// Geos specific unit test for match method type = 'Neighborhood'
+    // Geos specific unit test for match method type = 'Neighborhood' note that neighborhoods currently parsed as cities or streets
     @Test
     @Parameters({
-            "Bellrose Park; Tampa; FL | [{ address_line: null; street_no: null; street_direction: null;  street: null; street_suffix:null; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null; neighborhood:'Bellrose Park'; geo_type: NEIGHBORHOOD}]"
+            "Bellrose Park; Tampa; FL | [{ geo_type: STREET; address_line: null; street_no: null; street_direction: null;  street: 'Bellrose Park'; street_suffix:null; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null}]"
 
     })
     public void qaMatchMethodNeighborhoodTest(String input, String  expectedAsJson) throws Exception {
@@ -178,9 +178,9 @@ public class QueryParserTests {
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
 
         assertNotNull("Parser response is null", actual);
-        assertEquals(1, actual.length);
-        assertTrue(input, actual[0].equals(expected[0]));
-    }*/
+        assertEquals(2, actual.length);
+        assertTrue(input, actual[1].equals(expected[0]));
+    }
 
     // GEOV-329
     @Test

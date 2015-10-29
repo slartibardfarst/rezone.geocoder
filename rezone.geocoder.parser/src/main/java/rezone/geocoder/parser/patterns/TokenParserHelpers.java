@@ -13,6 +13,7 @@ public class TokenParserHelpers {
     private static Set<String> _streetSuffixes;
     private static Set<String> _directionals;
     private static Set<String> _unitDescriptors;
+    private static Set<String> _standard_prefixes;
 
     static {
         _states = new HashSet<String>() {{
@@ -89,6 +90,10 @@ public class TokenParserHelpers {
             add("southwest");
         }};
 
+        _standard_prefixes = new HashSet<String>() {{
+            add("los");
+        }};
+
         _unitDescriptors = new HashSet<String>() {{
             add("#");
             add("unit");
@@ -101,11 +106,16 @@ public class TokenParserHelpers {
 
     //public static boolean streetName1(String s) {        return s.matches("\\d{0,3}?i:\\w+");    }
     public static boolean streetName1(String s) {
-        return s.matches("\\w+");
+        return s.matches("\\w+") &&
+               !_standard_prefixes.contains(s.toLowerCase());
     }
 
     public static boolean streetName2(String s, String t) {
-        return s.toLowerCase().matches("[a-z]+") && t.matches("\\w+");
+        return s.toLowerCase().matches("[a-z]+") &&
+                t.matches("\\w+") &&
+                !_directionals.contains(s.toLowerCase()) &&
+                !_directionals.contains(t.toLowerCase()) &&
+                !streetSuffix1(t);
     }
 
     public static boolean city1(String s) {
@@ -118,7 +128,8 @@ public class TokenParserHelpers {
         return s.toLowerCase().matches("[a-z]+") &&
                 t.toLowerCase().matches("[a-z]+") &&
                 !state2(s, t) &&
-                (!t.equalsIgnoreCase("county"));
+                !t.equalsIgnoreCase("county") &&
+                !streetSuffix1(s);
     }
 
     public static boolean zip1(String s) {

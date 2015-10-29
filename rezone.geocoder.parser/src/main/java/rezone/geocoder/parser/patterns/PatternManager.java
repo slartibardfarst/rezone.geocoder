@@ -19,8 +19,10 @@ public class PatternManager {
         s += "street_geo :- street, city, state;";
 
         s += "city_geo :- city, state;";
+        s += "city_geo :- city, zip;";
 
         s += "state_geo :- state;";
+        s += "state_geo :- state, zip;";
 
         s += "county_geo :- county_name;";
         s += "county_geo :- county_name, state;";
@@ -34,6 +36,10 @@ public class PatternManager {
         s += "street :- street_name, street_suffix;";
         s += "street :- street_direction, street_name, street_suffix;";
         s += "street :- street_name, street_suffix, street_post_direction;";
+
+        s += "street :- street_name;";
+        s += "street :- street_direction, street_name;";
+        s += "street :- street_name, street_post_direction;";
 
         //terminal symbols
         s += "street_number :- street_no/1;";
