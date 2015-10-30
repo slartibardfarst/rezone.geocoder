@@ -9,6 +9,9 @@ public class InputTokens {
     public int CurrPos;
 
     public InputTokens(String[] src) {
+        for(int i = 0; i < src.length; i++)
+            src[i] = src[i].trim();
+
         Tokens = src;
         CurrPos = 0;
     }
@@ -22,7 +25,8 @@ public class InputTokens {
     }
 
     public static InputTokens tokenize(String inputString) {
-        String[] tokens = inputString.split("\\s+|,\\s*");
+        String spacedOutCommas = inputString.replaceAll(",", " , ");
+        String[] tokens = spacedOutCommas.split("\\s+");
 
         InputTokens result = new InputTokens(tokens);
         return result;

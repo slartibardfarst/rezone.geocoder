@@ -190,8 +190,8 @@ public class QueryParserTests {
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
 
         assertNotNull("Parser response is null", actual);
-        assertEquals(2, actual.length);
-        assertTrue(input, actual[1].equals(expected[0]));
+        assertEquals(1, actual.length);
+        assertTrue(input, actual[0].equals(expected[0]));
     }
 
     // GEOV-329
@@ -226,13 +226,14 @@ public class QueryParserTests {
             "227B Oak St Medford;NY;11763                       | 1 |  [{ geo_type: ADDRESS; street_no: '227B'; street: 'Oak'; street_suffix: 'St'; city: 'Medford'; state: 'NY'; zip:'11763'}]",
             "227B Oak St Medford NY;11763                       | 1 |  [{ geo_type: ADDRESS; street_no: '227B'; street: 'Oak'; street_suffix: 'St'; city: 'Medford'; state: 'NY'; zip:'11763'}]",
             "227B Oak St Medford NY 11763                       | 1 |  [{ geo_type: ADDRESS; street_no: '227B'; street: 'Oak'; street_suffix: 'St'; city: 'Medford'; state: 'NY'; zip:'11763'}]",
-            "164-176 Rollstone Avenue;West Sayville;NY 11796    | 2 |  [{ geo_type: ADDRESS; street_no: '164-176'; street: 'Rollstone'; street_suffix: 'Avenue'; city: 'West Sayville'; state: 'NY'; zip:'11796'}]",
+            "164-176 Rollstone Avenue;West Sayville;NY 11796    | 1 |  [{ geo_type: ADDRESS; street_no: '164-176'; street: 'Rollstone'; street_suffix: 'Avenue'; city: 'West Sayville'; state: 'NY'; zip:'11796'}]",
             "0364 Vermont St Lindenhurst 11757                  | 1 |  [{ geo_type: ADDRESS; street_no: '0364'; street: 'Vermont'; street_suffix: 'St'; city: 'Lindenhurst'; zip:'11757'}]",
             "572 E Willow St Elizabethtown PA                   | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'E'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 NE Willow St Elizabethtown PA                  | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'NE'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 northeast Willow St Elizabethtown PA           | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'northeast'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 north east Willow St Elizabethtown PA          | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'north east'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
-            "10776 Mieras Dr NE; Sparta;MI;49345                | 2 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
+            "10776 Mieras Dr NE; Sparta;MI;49345                | 1 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
+            "10776 Mieras Dr NE Sparta;MI;49345                 | 2 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
             "5870 State Route 669 NE Somerset OH                | 3 |  [{ geo_type: ADDRESS; street_no: '5870'; street: 'State Route 669'; street_post_direction: 'NE'; city: 'Somerset'; state:'OH'}]",
             "249 E 275 Rd N Marshall 47859                      | 2 |  [{ geo_type: ADDRESS; street_no: '249';  street_direction: 'E'; street: '275'; street_suffix: 'Rd'; street_post_direction: 'N'; city: 'Marshall'; zip:'47859'}]"
     })

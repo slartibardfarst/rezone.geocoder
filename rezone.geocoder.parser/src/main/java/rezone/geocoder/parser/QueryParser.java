@@ -18,6 +18,11 @@ public class QueryParser {
         _patterns = PatternManager.setupPatterns(patternsFilename);
     }
 
+    public QueryParser(List<Pattern> patterns)
+    {
+        _patterns = patterns;
+    }
+
     public Geo[] parse(String query) {
         return parse(query, null);
     }

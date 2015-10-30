@@ -190,6 +190,11 @@ public class TokenParserHelpers {
                 _multidirectionalEnds.contains(t.toLowerCase());
     }
 
+    public static boolean comma1(String s)
+    {
+        return s.equals(",");
+    }
+
 
     public static boolean unit1(String s) {return s.matches("\\d{1,3}[a-zA-Z]{0,2}"); }
     public static boolean unit2(String s, String t) {return _unitDescriptors.contains(s.toLowerCase()) && t.matches("\\d+-?\\w*"); }

@@ -2,6 +2,10 @@ package rezone.geocoder.parser.patterns;
 
 import junit.framework.TestCase;
 import org.junit.Test;
+import rezone.geocoder.parser.Geo;
+import rezone.geocoder.parser.InputTokens;
+import rezone.geocoder.parser.ParseDebug;
+import rezone.geocoder.parser.QueryParser;
 import rezone.geocoder.parser.predicate.Predicate;
 
 import java.util.List;
@@ -13,6 +17,13 @@ import java.util.Map;
 public class PatternManagerTest extends TestCase {
 
     @Test
+    public void testTokenize() throws Exception {
+        InputTokens tokenizedQuery = InputTokens.tokenize("Ave, North Vancouver");
+        assertEquals(4, tokenizedQuery.getNumTokens());
+    }
+
+
+        @Test
     public void testListRules() throws Exception {
 
         String s = "";
@@ -85,18 +96,24 @@ public class PatternManagerTest extends TestCase {
     @Test
     public void testOptionalSymbols3() throws Exception {
         String s = "";
-        s += "street :- [street_direction], street_name, [street_suffix], [street_post_direction];";
+        s += "address :- street_suffix, [street_post_direction], [comma], city;";
 
         //terminal symbols
-        s += "street_number :- street_no/1;";
-        s += "street_name :- street/1;";
-        s += "street_name :- street/2;";
-        s += "street_name :- street/3;";
         s += "street_suffix :- street_suffix/1;";
-        s += "street_direction :- street_direction/1;";
-        s += "street_direction :- street_direction/2;";
         s += "street_post_direction :- street_post_direction/1;";
-        s += "street_post_direction :- street_post_direction/2;";
+        s += "city :- city/1;";
+        s += "city :- city/2;";
+        s += "comma :- comma/1;";
+
+        List<Pattern> actualPatterns = PatternManager.PatternManagerTestClass.testListPatterns(s);
+        assertEquals(8, actualPatterns.size());
+
+        QueryParser qp = new QueryParser(actualPatterns);
+
+        ParseDebug dbg = new ParseDebug();
+        Geo[] result1 = qp.parse("Ave North Vancouver", dbg);
+
+        Geo[] result2 = qp.parse("Ave, North Vancouver", dbg);
     }
 
     @Test

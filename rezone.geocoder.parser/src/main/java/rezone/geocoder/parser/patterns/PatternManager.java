@@ -14,23 +14,23 @@ public class PatternManager {
         String s = "";
 
         //top-level rules
-        s += "address :- address_line, city, state, zip;";
-        s += "address :- address_line, city, zip;";
-        s += "address :- address_line, city, state;";
-        s += "address :- address_line, city;";
+        s += "address :- address_line, [comma], city, [comma], state, [comma], zip;";
+        s += "address :- address_line, [comma], city, [comma], zip;";
+        s += "address :- address_line, [comma], city, [comma], state;";
+        s += "address :- address_line, [comma], city;";
 
-        s += "street_geo :- street, city, [state], [zip];";
+        s += "street_geo :- street, [comma], city, [comma], [state], [comma], [zip];";
         //s += "street_geo :- street, city, state;";
         //s += "street_geo :- street, city, zip;";
 
-        s += "city_geo :- city, state;";
-        s += "city_geo :- city, zip;";
+        s += "city_geo :- city, [comma], state;";
+        s += "city_geo :- city, [comma], zip;";
 
         s += "state_geo :- state;";
-        s += "state_geo :- state, zip;";
+        s += "state_geo :- state, [comma], zip;";
 
         s += "county_geo :- county_name;";
-        s += "county_geo :- county_name, state;";
+        s += "county_geo :- county_name, [comma], state;";
 
         s += "zip_geo :- zip;";
 
@@ -58,6 +58,7 @@ public class PatternManager {
         s += "unit :- unit/2;";
         s += "county_name :- county/2;";
         s += "county_name :- county/3;";
+        s += "comma :- comma/1;";
 
         return s;
     }
@@ -83,6 +84,7 @@ public class PatternManager {
         result.put("unit/1", new Predicate("unit", (s) -> TokenParserHelpers.unit1(s)));
         result.put("county/2", new Predicate("county", (s, t) -> TokenParserHelpers.county2(s, t)));
         result.put("county/3", new Predicate("county", (s, t, u) -> TokenParserHelpers.county3(s, t, u)));
+        result.put("comma/1", new Predicate("comma", (s) -> TokenParserHelpers.comma1(s)));
 
         return result;
     }
