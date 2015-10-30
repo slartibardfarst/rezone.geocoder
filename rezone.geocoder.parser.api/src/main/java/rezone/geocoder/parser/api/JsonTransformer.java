@@ -1,3 +1,5 @@
+package rezone.geocoder.parser.api;
+
 import com.google.gson.Gson;
 
 import spark.ResponseTransformer;

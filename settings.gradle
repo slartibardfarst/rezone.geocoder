@@ -1,2 +1,3 @@
-include 'rezone.geocoder.parser'
 include 'rezone.geocoder.api'
+include 'rezone.geocoder.parser'
+include 'rezone.geocoder.parser.api'

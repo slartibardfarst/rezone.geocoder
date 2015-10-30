@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.sparkjava:spark-core:2.3',
+            'com.google.code.gson:gson:2.2.4'
+
+
+    compile project(':rezone.geocoder.parser')
+
+    testCompile 'junit:junit:4.12'
+}
+
+mainClassName = 'rezone.geocoder.parser.api.HelloWorld'
