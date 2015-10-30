@@ -140,7 +140,9 @@ public class TokenParserHelpers {
                 t.matches("\\w+") &&
                 !_directionals.contains(s.toLowerCase()) &&
                 !_directionals.contains(t.toLowerCase()) &&
-                !streetSuffix1(t);
+                !streetSuffix1(t) &&
+                !state1(t) &&
+                !t.equalsIgnoreCase("county");
     }
 
 
@@ -153,6 +155,7 @@ public class TokenParserHelpers {
     public static boolean city1(String s) {
         return s.toLowerCase().matches("[a-z]+") &&
                 !state1(s) &&
+                !streetSuffix1(s) &&
                 (!s.equalsIgnoreCase("county"));
     }
 
@@ -162,6 +165,7 @@ public class TokenParserHelpers {
                 !state2(s, t) &&
                 !t.equalsIgnoreCase("county") &&
                 !streetSuffix1(s) &&
+                !streetSuffix1(t) &&
                 !state1(t);
     }
 

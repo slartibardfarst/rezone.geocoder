@@ -17,9 +17,10 @@ public class PatternManager {
         s += "address :- address_line, [comma], city, [comma], state, [comma], zip;";
         s += "address :- address_line, [comma], city, [comma], zip;";
         s += "address :- address_line, [comma], city, [comma], state;";
-        s += "address :- address_line, [comma], city;";
+        s += "address :- address_line, [comma], [city];";
 
         s += "street_geo :- street, [comma], city, [comma], [state], [comma], [zip];";
+        s += "street_geo :- [street_direction], street_name, street_suffix, [street_post_direction], [comma], [state], [comma], [zip];";
         //s += "street_geo :- street, city, state;";
         //s += "street_geo :- street, city, zip;";
 
