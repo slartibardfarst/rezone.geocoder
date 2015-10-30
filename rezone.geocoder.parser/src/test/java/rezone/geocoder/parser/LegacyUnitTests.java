@@ -101,6 +101,36 @@ public class LegacyUnitTests {
             "500 Paragon Mills Road Apt E-8 ;Nashville;TN;37211 |99| [{ geo_type: ADDRESS; address_line: '500 Paragon Mills Rd';street_no: '500';street_direction: '';street_post_direction: '';city: 'Nashville';state: 'TN';zip_plus_four: '3732';unit: 'Apt E8'}]",
             "319 Laurens Street; Apt A-7;Aiken;SC;29801 |99| [{ geo_type: ADDRESS; address_line: '319 Laurens St SW';street_no: '319';street_direction: '';street_post_direction: 'SW';city: 'Aiken';state: 'SC';zip_plus_four: '4851';unit: 'Apt A7'}]",
             "Apt A-501 Balcones De Monte Real;Carolina;PR;00617 |99| [{ geo_type: ADDRESS; address_line: 'Balcones De Monte Real';city: 'Carolina';state: 'PR';zip: '00617';unit: 'Apt A501'}]",
+
+    })
+    public void legacy_cases1(String input, int expectNumMatches, String expectedAsJson) throws Exception {
+        input = input.replaceAll(";|\\.", ",");
+        expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
+
+        ParseDebug dbg = new ParseDebug();
+        Geo[] actual = _parser.parse(input , dbg);
+        Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
+
+        assertNotNull("Parser response is null\n", actual);
+        assertTrue("Parser returned no results\n", 0 != actual.length);
+        if (expectNumMatches != 99)
+            assertEquals(expectNumMatches, actual.length);
+
+        if (expectNumMatches == 1)
+            assertTrue("Parser result doesn't match expected result", actual[0].equals(expected[0]));
+        else {
+            boolean matchFound = false;
+            for (int i = 0; i < actual.length; i++)
+                if (actual[i].equals(expected[0]))
+                    matchFound = true;
+
+            assertTrue("None of the parser's responses match the expected result\n", matchFound);
+
+        }
+    }
+
+    @Test
+    @Parameters({
             "1005 Ste #5 N 9th;Boise;ID;83702 |99| [{ geo_type: ADDRESS; address_line: '1005 N 9th Ste 5';street_no: '1005';street_direction: 'N'; street: '9th';city: 'Boise'; state: 'ID';zip: '83702';unit: 'Ste 5'}]",
             "218 W. Austin Apt 1-4;Nacogdoches;TX;75961 |99| [{ geo_type: ADDRESS; address_line: '218 W Austin Apt 1-4';street_no: '218';street_direction: 'W';street: 'Austin';city: 'Nacogdoches';state: 'TX';zip_plus_four: '2768';unit: 'Apt 1-4'}]",
             "500 Paragon Mills Road Apt E-8 ;Nashville;TN;37211 |99| [{ geo_type: ADDRESS; address_line: '500 Paragon Mills Rd Apt E8';street_no: '500';street_suffix: 'Rd';city: 'Nashville';state: 'TN';zip_plus_four: '3732';unit: 'Apt E8'}]",
@@ -142,9 +172,8 @@ public class LegacyUnitTests {
             "417 River Bend Apartments   # X ;Riverside;AL;35135 |99| [{ geo_type: ADDRESS;  address_line: '417 X'; street_no: '417'; street_direction: null; street_suffix: null; city: 'Riverside'; state: 'AL'; zip: '35135'; unit: null }]",
             "297 Boulder Creek Drive E Dry Creek Apartments;Redding;CA;96003 |99| [{ geo_type: ADDRESS;  address_line: '297 Boulder Creek Dr E'; street_no: '297'; street_direction: null; street_post_direction: 'E'; city: 'Redding'; state: 'CA'; zip: '96003'; unit: null }]",
             "2559 12th Avenue North West;Columbia Falls;MT;59912 |99| [{ geo_type: ADDRESS;  address_line: '2559 12th Ave NW'; street_no: '2559'; street_direction: null; street_post_direction: 'NW'; city: 'Columbia Falls'; state: 'MT'; zip: '59912'; unit: null }]",
-
     })
-    public void test_with_a_good_name(String input, int expectNumMatches, String expectedAsJson) throws Exception {
+    public void legacy_cases2(String input, int expectNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
