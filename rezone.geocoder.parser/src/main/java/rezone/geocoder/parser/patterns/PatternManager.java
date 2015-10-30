@@ -17,6 +17,7 @@ public class PatternManager {
         s += "address :- address_line, city, state, zip;";
         s += "address :- address_line, city, zip;";
         s += "address :- address_line, city, state;";
+        s += "address :- address_line, city;";
 
         s += "street_geo :- street, city, [state], [zip];";
         //s += "street_geo :- street, city, state;";
@@ -162,6 +163,7 @@ public class PatternManager {
                     ProductionRule expanded = expandSymbolInRule(currRule, i, currDefinition);
                     recursivelyExpandRule(expanded, definitions, terminalRulesAcc);
                 }
+                break;
             }
         }
 

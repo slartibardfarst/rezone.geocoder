@@ -24,7 +24,8 @@ public class QueryParserTests {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        _parser = new QueryParser("/users/awatkins/patterns3.csv");
+        //_parser = new QueryParser("/users/awatkins/patterns3.csv");
+        _parser = new QueryParser();
         _gson = new GsonBuilder().create();
     }
 
@@ -271,7 +272,7 @@ public class QueryParserTests {
             "2565 Broadway St 234BC; Vancouver;WA; 98663         | 99 |  [{ geo_type: ADDRESS; street_no: '2565'; street: 'Broadway'; street_suffix: 'St'; unit: '234BC'; city: 'Vancouver'; state: 'WA'; zip:'98663'}]",
             "1465 E 41st Ave; Vancouver 98661+5885               | 99 |  [{ geo_type: ADDRESS; street_no: '1465'; street_direction: 'E'; street: '41st'; street_suffix: 'Ave'; city: 'Vancouver'; zip:'98661+5885'}]",
     })
-    public void expectedStreetAddressVariationTests_9_to_8(String input, int expectNumMatches, String expectedAsJson) throws Exception {
+    public void expectedStreetAddressVariationTests_9_to_end(String input, int expectNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
