@@ -57,7 +57,7 @@ public class QueryParserTests {
             "754 Pharr Rd. Atlanta. Georgia 31035 |1| [{ geo_type: ADDRESS; address_line: '754 Pharr Rd'; street_no: '754'; street: 'Pharr'; street_suffix: 'Rd'; city: 'Atlanta'; state: 'Georgia'; zip: '31035' }]",
             "Texas 76013                          |1| [{ geo_type: STATE; state: 'Texas'; zip: '76013' }]",
             "CA                                   |1| [{ geo_type: STATE; state: 'CA' }]",
-            "Grand canyon 86023                   |2| [{ geo_type: CITY; city: 'Grand canyon'; zip: '86023'  }]"
+            "Grand canyon 86023                   |3| [{ geo_type: CITY; city: 'Grand canyon'; zip: '86023'  }]"
     })
     public void addressitTests(String input, int numExpectedMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -178,10 +178,10 @@ public class QueryParserTests {
     // Geos specific unit test for match method type = 'Neighborhood' note that neighborhoods currently parsed as cities or streets
     @Test
     @Parameters({
-            "Bellrose Park; Tampa; FL | [{ geo_type: STREET; address_line: null; street_no: null; street_direction: null;  street: 'Bellrose Park'; street_suffix:null; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null}]"
+            "Bellrose Park; Tampa; FL |2| [{ geo_type: STREET; address_line: null; street_no: null; street_direction: null;  street: 'Bellrose'; street_suffix:'Park'; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null}]"
 
     })
-    public void qaMatchMethodNeighborhoodTest(String input, String expectedAsJson) throws Exception {
+    public void qaMatchMethodNeighborhoodTest(String input, int expectedNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
@@ -189,9 +189,17 @@ public class QueryParserTests {
         Geo[] actual = _parser.parse(input, dbg);
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
 
-        assertNotNull("Parser response is null", actual);
-        assertEquals(1, actual.length);
-        assertTrue(input, actual[0].equals(expected[0]));
+        assertEquals(expectedNumMatches, actual.length);
+        if (expectedNumMatches == 1)
+            assertTrue("matchFound", actual[0].equals(expected[0]));
+        else {
+            boolean matchFound = false;
+            for (int i = 0; i < actual.length; i++)
+                if (actual[i].equals(expected[0]))
+                    matchFound = true;
+
+            assertTrue("matchFound", matchFound);
+        }
     }
 
     // GEOV-329
@@ -234,7 +242,7 @@ public class QueryParserTests {
             "572 north east Willow St Elizabethtown PA          | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'north east'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "10776 Mieras Dr NE; Sparta;MI;49345                | 1 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
             "10776 Mieras Dr NE Sparta;MI;49345                 | 2 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
-            "5870 State Route 669 NE Somerset OH                | 3 |  [{ geo_type: ADDRESS; street_no: '5870'; street: 'State Route 669'; street_post_direction: 'NE'; city: 'Somerset'; state:'OH'}]",
+            "5870 State Route 669 NE Somerset OH                | 4 |  [{ geo_type: ADDRESS; street_no: '5870'; street: 'State Route 669'; street_post_direction: 'NE'; city: 'Somerset'; state:'OH'}]",
             "249 E 275 Rd N Marshall 47859                      | 2 |  [{ geo_type: ADDRESS; street_no: '249';  street_direction: 'E'; street: '275'; street_suffix: 'Rd'; street_post_direction: 'N'; city: 'Marshall'; zip:'47859'}]"
     })
     public void expectedStreetAddressVariationTests_1_to_8(String input, int expectNumMatches, String expectedAsJson) throws Exception {
@@ -256,7 +264,6 @@ public class QueryParserTests {
                     matchFound = true;
 
             assertTrue("matchFound", matchFound);
-
         }
     }
 
