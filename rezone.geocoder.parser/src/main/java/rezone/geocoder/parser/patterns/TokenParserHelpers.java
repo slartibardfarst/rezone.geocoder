@@ -30,6 +30,8 @@ public class TokenParserHelpers {
             add("california");
             add("co");
             add("colorado");
+            add("de");
+            add("delaware");
             add("fl");
             add("florida");
             add("ga");
@@ -40,8 +42,12 @@ public class TokenParserHelpers {
             add("illinois");
             add("ks");
             add("kansas");
+            add("ma");
+            add("massachusetts");
             add("mi");
             add("michigan");
+            add("nc");
+            add("north carolina");
             add("nd");
             add("north dakota");
             add("nh");
@@ -60,10 +66,19 @@ public class TokenParserHelpers {
             add("south carolina");
             add("tx");
             add("texas");
+            add("ut");
+            add("utah");
+            add("va");
+            add("virginia");
             add("wa");
             add("washington");
+            add("wi");
+            add("wisconsin");
             add("wv");
             add("west virginia");
+
+            add("pr");
+            add("puerto rico");
       }};
 
 //        _streetSuffixes = new HashSet<String>() {{
@@ -124,13 +139,16 @@ public class TokenParserHelpers {
             add("#");
             add("unit");
             add("ste");
+            add("spc");
+            add("ph");
+            add("lot");
         }};
 
         _mostCommonStreetSuffixes = ""
         + "highway;"
         + "av,ave,aven,avenu,avenue,avn,avnue:ave;"
         + "blvd,boul,boulevard,boulv,blv:blvd;"
-        + "crescent,cres,crsent,crsnt,cr:cres;"  //aw todo: veryify 'cr' is valid abbrev for crescent
+        + "crescent,cres,crsent,crsnt,cr:cres;"  //aw todo: verify 'cr' is valid abbrev for crescent
         + "rd,road:rd;"
         + "st,street,strt,str:st;"
         + "lane,ln:ln;"
@@ -390,6 +408,12 @@ public class TokenParserHelpers {
                 !state1(t);
     }
 
+    public static boolean city3(String s, String t, String u)
+    {
+        return u.toLowerCase().contains("city") &&
+                city2(s,t);
+    }
+
     public static boolean zip1(String s) {
         return s.matches("\\d{5}") || s.matches("\\d{5}\\+\\d{4}");
     }
@@ -422,8 +446,11 @@ public class TokenParserHelpers {
     }
 
 
-    public static boolean unit1(String s) {return s.matches("\\d{1,3}[a-zA-Z]{0,2}"); }
-    public static boolean unit2(String s, String t) {return _unitDescriptors.contains(s.toLowerCase()) && t.matches("\\d+-?\\w*"); }
+    public static boolean unit1(String s) {
+        return s.toLowerCase().matches("(unit|ste|#)?\\d{1,3}[a-zA-Z]{0,2}");
+    }
+
+    public static boolean unit2(String s, String t) {return _unitDescriptors.contains(s.toLowerCase()) && t.matches("#?\\d+-?\\w*"); }
 
     public static boolean county2(String s, String t) {return s.toLowerCase().matches("[a-z]+") && t.equalsIgnoreCase("county");}
     public static boolean county3(String s, String t, String u) {return s.toLowerCase().matches("[a-z]+") && t.toLowerCase().matches("[a-z]+") && u.equalsIgnoreCase("county");}

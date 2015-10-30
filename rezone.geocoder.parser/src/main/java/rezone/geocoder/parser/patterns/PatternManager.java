@@ -37,6 +37,7 @@ public class PatternManager {
 
         //non-terminals
         s += "address_line :- street_number, street, [unit];";
+        s += "address_line :- street_number, [unit], street;";
 
         s += "street :- [street_direction], street_name, [street_suffix], [street_post_direction];";
 
@@ -52,6 +53,7 @@ public class PatternManager {
         s += "street_post_direction :- street_post_direction/2;";
         s += "city :- city/1;";
         s += "city :- city/2;";
+        s += "city :- city/3;";
         s += "state :- state/1;";
         s += "state :- state/2;";
         s += "zip  :- zip/1;";
@@ -78,6 +80,7 @@ public class PatternManager {
         result.put("street_suffix/1", new Predicate("street_suffix", (s) -> TokenParserHelpers.streetSuffix1(s)));
         result.put("city/1", new Predicate("city", (s) -> TokenParserHelpers.city1(s)));
         result.put("city/2", new Predicate("city", (s, t) -> TokenParserHelpers.city2(s, t)));
+        result.put("city/3", new Predicate("city", (s, t, u) -> TokenParserHelpers.city3(s, t, u)));
         result.put("state/1", new Predicate("state", (s) -> TokenParserHelpers.state1(s)));
         result.put("state/2", new Predicate("state", (s, t) -> TokenParserHelpers.state2(s, t)));
         result.put("zip/1", new Predicate("zip", s -> TokenParserHelpers.zip1(s)));

@@ -77,7 +77,7 @@ public class LegacyUnitTests {
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
         ParseDebug dbg = new ParseDebug();
-        Geo[] actual = _parser.parse(input, dbg);
+        Geo[] actual = _parser.parse(input , dbg);
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
 
         assertNotNull("Parser response is null", actual);

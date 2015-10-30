@@ -25,6 +25,7 @@ public class InputTokens {
     }
 
     public static InputTokens tokenize(String inputString) {
+        inputString = inputString.replaceAll(";",",");
         String spacedOutCommas = inputString.replaceAll(",", " , ");
         String[] tokens = spacedOutCommas.split("\\s+");
 
