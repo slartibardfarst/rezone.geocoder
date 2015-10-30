@@ -70,6 +70,37 @@ public class LegacyUnitTests {
             "1/2 307 S NACHES AVE; Yakima; WA |99| [{ geo_type: ADDRESS; address_line: '307 S Naches Ave # 1 & 2';street_no: '307'; street_direction: 'S'; street_suffix: 'Ave';city: 'Yakima';state: 'WA';zip: null; unit: '# 1 & 2'}]",
             "1/2/3 307 S NACHES AVE; Yakima; WA |99| [{ geo_type: ADDRESS; address_line: '307 S Naches Ave # 1; 2; 3';street_no: '307'; street_direction: 'S'; street_suffix: 'Ave';city: 'Yakima';state: 'WA';zip: null; unit: '# 1; 2; 3'}]",
             "1/2 NACHES AVE; Yakima; WA |99| [{ geo_type: ADDRESS; address_line: '1/2 Naches Ave';street_no: '1/2'; street_direction: 'S'; street_suffix: 'Ave';city: 'Yakima';state: 'WA';zip: null; unit: null}]",
+            "4140 Three Oaks Blvd; Apt 4a;TROY;MI;48098 |99| [{ geo_type: ADDRESS; address_line: '4140 Three Oaks Blvd';street_no: '4140';street_suffix: 'Blvd';city: 'Troy';state: 'MI';zip: '48098';unit: 'Apt 4A'}]",
+            "114 Mt. Drive Apt 2A;Mount Pocono;PA;18344 |99| [{ geo_type: ADDRESS; address_line: '114 Mt Dr';street_no: '114';street_suffix: 'Dr';city: 'Mount Pocono';state: 'PA';zip: '18344';unit: 'Apt 2A'}]",
+            "3701 CRESCENT RIM DR APT;BOISE;ID;83706 |99| [{ geo_type: ADDRESS; address_line: '3701 Crescent Rim Dr';street_no: '3701';street_suffix: 'Dr';city: 'Boise';state: 'ID';zip: '83706';unit: 'Apt'}]",
+            "1200 PA ave apt 1;Bridgeville;PA;15017 |99| [{ geo_type: ADDRESS; address_line: '1200 Pa Ave';street_no: '1200';street_suffix: 'Ave';city: 'Bridgeville';state: 'PA';zip: '15017';unit: 'Apt 1'}]",
+            "218 W. Austin Apt 1-4;Nacogdoches;TX;75961 |99| [{ geo_type: ADDRESS; address_line: '218 W Austin Apt(s) 1-4';street_no: '218';street_direction: 'W';street: 'Austin';city: 'Nacogdoches';state: 'TX'; zip_plus_four: '2768'; unit: '# 1-4'}]",
+            "826 Apt 1-4 Magnolia Ave;Long Beach;CA;90813 |99| [{ geo_type: ADDRESS; address_line: '826 Magnolia Ave';street_no: '826';street_suffix: 'Ave';city: 'Long Beach';state: 'CA';zip: '90813';unit: 'Apt 1-4'}]",
+            "260-290 West Washington Apt 1-10;Martinsville;IN;46151 |99| [{ geo_type: ADDRESS; address_line: '260-290 West Washington';city: 'Martinsville';state: 'IN';zip: '46151';unit: 'Apt 1-10'}]",
+            "39.5 Washington Square S - Apt: 2;New York;NY;10012 |99| [{ geo_type: ADDRESS; address_line: '39.5 Washington Sq S';street_no: '39.5';street_post_direction: 'S';city: 'New York';state: 'NY';zip: '10012';unit: 'Apt 2'}]",
+            "6035 Broadway - Apt: 4C;Bronx;NY;10471 |99| [{ geo_type: ADDRESS; address_line: '6035 Broadway';street_no: '6035';street_direction: '';street_post_direction: '';city: 'Bronx';state: 'NY';zip_plus_four: '4105';unit: 'Apt 4C'}]",
+            "7 Prospect St Apt403;Morristown Town;NJ;07960 |99| [{ geo_type: ADDRESS; address_line: '7 Prospect St';street_no: '7';street_direction: '';street_post_direction: '';city: 'Morristown';state: 'NJ';zip_plus_four: '9302';unit: 'Unit 403'}]",
+            "209 Apt9 WATERDOWN DR.;Fayetteville;NC;28314 |99| [{ geo_type: ADDRESS; address_line: '209 Waterdown Dr';street_no: '209';street_suffix: 'Dr';city: 'Fayetteville';state: 'NC';zip: '28314';unit: 'Apt 9'}]",
+            "190 Olympic Apt17;Port Ludlow;WA;98365 |99| [{ geo_type: ADDRESS; address_line: '190 Olympic';street_no: '190';street: 'Olympic';city: 'Port Ludlow';state: 'WA';zip: '98365';unit: 'Apt 17'}]",
+            "Apt211 Harbor Island Inn & Villas;Harbor Island;SC;29920 |99| [{ geo_type: ADDRESS; address_line: 'Harbor Is Inn and Villas';street_suffix: 'Is';city: 'Harbor Island';state: 'SC';zip: '29920';unit: 'Apt 211'}]",
+            "23238APT#1037 ROSEWOOD CT #1037;CALIFORNIA;MD;20619 |99| [{ geo_type: ADDRESS; address_line: '23238 Rosewood Ct';street_no: '23238';street_suffix: 'Ct';city: 'California';state: 'MD';zip: '20619';unit: '# 1037'}]",
+            "APT#1 1459 LEARN ROAD;Tannersville;PA;18372 |99| [{ geo_type: ADDRESS; address_line: '1459 Learn Rd';street_suffix: 'Rd';city: 'Tannersville';state: 'PA';zip: '18372';unit: 'Apt 1'}]",
+            "24733 Apt#6 Ridgewalk 66;Murrieta;CA;92562 |99| [{ geo_type: ADDRESS; address_line: '24733 Ridgewalk 66';street_no: '24733';street: 'Ridgewalk 66';city: 'Murrieta';state: 'CA';zip: '92562';unit: 'Apt 6'}]",
+            "4051 Nostrand Ave APT.1;Brooklyn;NY;11235 |99| [{ geo_type: ADDRESS; address_line: '4051 Nostrand Ave';street_no: '4051';street_direction: '';street_post_direction: '';city: 'Brooklyn';state: 'NY';zip_plus_four: '2240';unit: 'Apt 1'}]",
+            "441 apt.2 WILTON-GANSEVOORT RD;Wilton;NY;12831 |99| [{ geo_type: ADDRESS; address_line: '441 Wilton-Gansevoort Rd';street_no: '441';street_suffix: 'Rd';city: 'Wilton';state: 'NY';zip: '12831';unit: 'Apt 2'}]",
+            "514 Brophy;  Apt.1;Bisbee;AZ;85603 |99| [{ geo_type: ADDRESS; address_line: '514 Brophy';street_no: '514';street: 'Brophy';city: 'Bisbee';state: 'AZ';zip: '85603';unit: 'Apt 1'}]",
+            "A Liftside Dr APT.10;Hunter;NY;12442 |99| [{ geo_type: ADDRESS; address_line: 'A Liftside Dr';street_suffix: 'Dr';city: 'Hunter';state: 'NY';zip: '12442';unit: 'Apt 10'}]",
+            "95th Avenue & 111th street..Spacious Studio Apt $1;South Richmond Hill;NY;11419 |99| [{ geo_type: ADDRESS; address_line: '95th Avenue and 111th St Spacious Studio';street_no: '95th';street_suffix: 'St';city: 'South Richmond Hill';state: 'NY';zip: '11419';unit: 'Apt 1'}]",
+            "Decatur Avenue & E. 197th street..1Br Apt $975;bronx;NY;10458 |99| [{ geo_type: ADDRESS; address_line: 'Decatur Avenue and E 197th St 1br';street_suffix: 'St';city: 'Bronx';state: 'NY';zip: '10458';unit: 'Apt 975'}]",
+            "34 Bay Ridge Ave APT.1B;Brooklyn;NY;11209 |99| [{ geo_type: ADDRESS; address_line: '34 Bay Ridge Ave';street_no: '34';street_suffix: 'Ave';city: 'Brooklyn';state: 'NY';zip: '11209';unit: 'Apt 1B'}]",
+            "52-54 Avenue W APT.1A;Brooklyn;NY;11223 |99| [{ geo_type: ADDRESS; address_line: '52-54 Ave W';street_post_direction: 'W';city: 'Brooklyn';state: 'NY';zip: '11223';unit: 'Apt 1A'}]",
+            "105 Prime Apt.D3 Ave D3;Huntington;NY;11743 |99| [{ geo_type: ADDRESS; address_line: '105 Prime Ave';street_no: '105';street_direction: '';street_post_direction: '';city: 'Huntington';state: 'NY';zip_plus_four: '2006';unit: 'Apt D3'}]",
+            "36 Apt -2b Lake St;Highland Falls;NY;10928 |99| [{ geo_type: ADDRESS; address_line: '36 Lake St';street_no: '36';street_suffix: 'St';city: 'Highland Falls';state: 'NY';zip: '10928';unit: 'Apt 2B'}]",
+            "114 Mountain Dr. Apt 2-E;Mount Pocono;PA;18344 |99| [{ geo_type: ADDRESS; address_line: '114 Mountain Dr';street_no: '114';street_suffix: 'Dr';city: 'Mount Pocono';state: 'PA';zip: '18344';unit: 'Apt 2E'}]",
+            "REO COND MIRAMAR 626 APT 2-A-;San Juan;PR;00907 |99| [{ geo_type: ADDRESS; address_line: 'REO COND MIRAMAR 626';city: 'San Juan';state: 'PR';zip: '00907';unit: 'Apt 2A'}]",
+            "500 Paragon Mills Road Apt E-8 ;Nashville;TN;37211 |99| [{ geo_type: ADDRESS; address_line: '500 Paragon Mills Rd';street_no: '500';street_direction: '';street_post_direction: '';city: 'Nashville';state: 'TN';zip_plus_four: '3732';unit: 'Apt E8'}]",
+            "319 Laurens Street; Apt A-7;Aiken;SC;29801 |99| [{ geo_type: ADDRESS; address_line: '319 Laurens St SW';street_no: '319';street_direction: '';street_post_direction: 'SW';city: 'Aiken';state: 'SC';zip_plus_four: '4851';unit: 'Apt A7'}]",
+            "Apt A-501 Balcones De Monte Real;Carolina;PR;00617 |99| [{ geo_type: ADDRESS; address_line: 'Balcones De Monte Real';city: 'Carolina';state: 'PR';zip: '00617';unit: 'Apt A501'}]",
 
     })
     public void test_with_a_good_name(String input, int expectNumMatches, String expectedAsJson) throws Exception {
@@ -80,20 +111,20 @@ public class LegacyUnitTests {
         Geo[] actual = _parser.parse(input, dbg);
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
 
-        assertNotNull("Parser response is null", actual);
-        assertTrue(0 != actual.length);
+        assertNotNull("Parser response is null\n", actual);
+        assertTrue("Parser returned no results\n", 0 != actual.length);
         if (expectNumMatches != 99)
             assertEquals(expectNumMatches, actual.length);
 
         if (expectNumMatches == 1)
-            assertTrue("matchFound", actual[0].equals(expected[0]));
+            assertTrue("Parser result doesn't match expected result", actual[0].equals(expected[0]));
         else {
             boolean matchFound = false;
             for (int i = 0; i < actual.length; i++)
                 if (actual[i].equals(expected[0]))
                     matchFound = true;
 
-            assertTrue("matchFound", matchFound);
+            assertTrue("None of the parser's responses match the expected result\n", matchFound);
 
         }
     }
