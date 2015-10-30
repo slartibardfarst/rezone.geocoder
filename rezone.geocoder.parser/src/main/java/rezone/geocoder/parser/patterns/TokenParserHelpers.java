@@ -10,12 +10,15 @@ import java.util.Set;
  */
 public class TokenParserHelpers {
     private static Set<String> _states;
-    private static Set<String> _streetSuffixes;
+    private static Set<String> _commonStreetSuffixes;
+    private static Set<String> _uncommonStreetSuffixes;
     private static Set<String> _directionals;
     private static Set<String> _unitDescriptors;
     private static Set<String> _standard_prefixes;
     private static Set<String> _multidirectionalStarts;
     private static Set<String> _multidirectionalEnds;
+    private static String _mostCommonStreetSuffixes;
+    private static String _lessCommonStreetSuffixes;
 
     static {
         _states = new HashSet<String>() {{
@@ -63,21 +66,21 @@ public class TokenParserHelpers {
             add("west virginia");
       }};
 
-        _streetSuffixes = new HashSet<String>() {{
-            add("st");
-            add("street");
-            add("ave");
-            add("avenue");
-            add("dr");
-            add("drive");
-            add("rd");
-            add("road");
-            add("cr");
-            add("crescent");
-            add("ln");
-            add("lane");
-            add("highway");
-        }};
+//        _streetSuffixes = new HashSet<String>() {{
+//            add("st");
+//            add("street");
+//            add("ave");
+//            add("avenue");
+//            add("dr");
+//            add("drive");
+//            add("rd");
+//            add("road");
+//            add("cr");
+//            add("crescent");
+//            add("ln");
+//            add("lane");
+//            add("highway");
+//        }};
 
         _directionals = new HashSet<String>() {{
             add("n");
@@ -122,6 +125,224 @@ public class TokenParserHelpers {
             add("unit");
             add("ste");
         }};
+
+        _mostCommonStreetSuffixes = ""
+        + "highway;"
+        + "av,ave,aven,avenu,avenue,avn,avnue:ave;"
+        + "blvd,boul,boulevard,boulv,blv:blvd;"
+        + "crescent,cres,crsent,crsnt,cr:cres;"  //aw todo: veryify 'cr' is valid abbrev for crescent
+        + "rd,road:rd;"
+        + "st,street,strt,str:st;"
+        + "lane,ln:ln;"
+        + "dr,driv,drive,drv:dr;";
+
+        _lessCommonStreetSuffixes = ""
+        + "allee,alley,ally,aly:aly;"
+        + "anex,annex,annx,anx:anx;"
+        + "arc,arcade:arc;"
+        + "bayoo,bayou,byu:byu;"
+        + "bch,beach:bch;"
+        + "bend,bnd:bnd;"
+        + "blf,bluf,bluff:blf;"
+        + "blfs,bluffs:blfs;"
+        + "bot,btm,bottm,bottom:btm;"
+        + "br,brnch,branch:br;"
+        + "brdge,brg,bridge:brg;"
+        + "brk,brook:brk;"
+        + "brks,brooks:brks;"
+        + "burg,bg:bg;"
+        + "bgs,burgs:bgs;"
+        + "byp,bypa,bypas,bypass,byps:byp;"
+        + "camp,cp,cmp:cp;"
+        + "canyn,canyon,cnyn,cyn:cyn;"
+        + "cape,cpe:cpe;"
+        + "causeway,causway,causwa,cswy:cswy;"
+        + "cen,cent,center,centr,centre,cnter,cntr,ctr:ctr;"
+        + "centers,centrs,centres,cnters,cntrs,ctrs:ctrs;"
+        + "cir,circ,circl,circle,crcl,crcle,cr:cir;"
+        + "circles,cirs:cirs;"
+        + "clf,cliff:clf;"
+        + "clfs,cliffs:clfs;"
+        + "clb,club:clb;"
+        + "common,cmn:cmn;"
+        + "commons,cmns:cmns;"
+        + "cor,corner:cor;"
+        + "cors,corners:cors;"
+        + "course,crse:crse;"
+        + "court,ct:ct;"
+        + "courts,cts:cts;"
+        + "cove,cv:cv;"
+        + "coves,cvs:cvs;"
+        + "creek,crk:crk;"
+        + "crest,crst:crst;"
+        + "crossing,crssng,xing:xing;"
+        + "crossroad,xrd:xrd;"
+        + "crossroads,xrds:xrds;"
+        + "crown:crown;"
+        + "curv,curve:curv;"
+        + "dale,dl:dl;"
+        + "dam,dm:dm;"
+        + "div,divide,dv,dvd:dv;"
+        + "drs,drives:drs;"
+        + "est,estate:est;"
+        + "ests,estates:ests;"
+        + "exp,expr,express,expressway,expw,expy:expy;"
+        + "ext,extension,extn,extnsn:ext;"
+        + "extensions,extns,exts:exts;"
+        + "fall:fall;"
+        + "falls,fls:fls;"
+        + "ferry,frry,fry:fry;"
+        + "field,fld:fld;"
+        + "fields,flds:flds;"
+        + "flat,flt:flt;"
+        + "flats,flts:flts;"
+        + "ford,frd:frd;"
+        + "fords,frds:frds;"
+        + "forest,forests,frst:frst;"
+        + "forg,forge,frg:frg;"
+        + "forgs,forges,frgs:frgs;"
+        + "fork,frk:frk;"
+        + "forks,frks:frks;"
+        + "fort,frt,ft:ft;"
+        + "freeway,freewy,frway,frwy,fwy:fwy;"
+        + "garden,gardn,gdn,grden,grdn:gdn;"
+        + "gardens,gdns,grdens,grdns:gdns;"
+        + "gateway,gatewy,gatway,gtway,gtwy:gtwy;"
+        + "glen,gln:gln;"
+        + "glens,glns:glns;"
+        + "green,grn:grn;"
+        + "greens,grns:grns;"
+        + "grov,grove,grv:grv;"
+        + "groves,grvs:grvs;"
+        + "harb,harbor,harbr,hbr,hrbor:hbr;"
+        + "harbors,hbrs:hbrs;"
+        + "haven,hvn:hvn;"
+        + "heights,ht,hts:hts;"
+        + "highway,highwy,hiway,hiwy,hway,hwy:hwy;"
+        + "hill,hl:hl;"
+        + "hills,hls:hls;"
+        + "hllw,hollow,hollows,holw,holws:holw;"
+        + "inlet,inlt:inlt;"
+        + "is,island,islnd:is;"
+        + "iss,islands,islnds:iss;"
+        + "isle,isles:isle;"
+        + "jct,jction,jctn,junction,junctn,juncton:jct;"
+        + "jcts,jctions,jctns,junctions,junctns,junctons:jcts;"
+        + "key,ky:ky;"
+        + "keys,kys:kys;"
+        + "knl,knol,knoll:knl;"
+        + "knls,knols,knolls:knls;"
+        + "lk,lake:lk;"
+        + "lks,lakes:lks;"
+        + "land:land;"
+        + "landing,lndg,lndng:lndg;"
+        + "lgt,light:lgt;"
+        + "lgts,lights:lgts;"
+        + "loaf,lf:lf;"
+        + "lock,lck:lck;"
+        + "locks,lcks:lcks;"
+        + "ldg,ldge,lodg,lodge:ldg;"
+        + "lp,loop,loops:loop;"
+        + "mall:mall;"
+        + "mnr,manor:mnr;"
+        + "mnrs,manors:mnrs;"
+        + "mdw,meadow:mdw;"
+        + "mdws,meadows,medows:mdws;"
+        + "mews:mews;"
+        + "mill,ml:ml;"
+        + "mills,mls:mls;"
+        + "mission,missn,mssn:msn;"
+        + "motorway,mtwy:mtwy;"
+        + "mnt,mt,mount:mt;"
+        + "mntain,mntn,mountain,mountin,mtin,mtn:mtn;"
+        + "mntns,mountains:mtns;"
+        + "nck,neck:nck;"
+        + "orch,orchard,orchrd:orch;"
+        + "oval,ovl:oval;"
+        + "opas,overpass:opas;"
+        + "park,prk,parks,prks:park;"
+        + "pkwy,parkway,parkways,parkwy,pkway,pkwys,pky:pkwy;"
+        + "pass:pass;"
+        + "passage,psge:psge;"
+        + "path,paths:path;"
+        + "pike,pikes:pike;"
+        + "pine,pne:pne;"
+        + "pines,pnes:pnes;"
+        + "pl,place:pl;"
+        + "plain,pln:pln;"
+        + "plains,plns:plns;"
+        + "plaza,plz,plza:plz;"
+        + "point,pt:pt;"
+        + "points,pts:pts;"
+        + "port,prt:prt;"
+        + "ports,prts:prts;"
+        + "pr,prairie,prarie,prr:pr;"
+        + "rad,radial,radiel,radl:radl;"
+        + "ramp:ramp;"
+        + "ranch,ranches,rnch,rnchs:rnch;"
+        + "rapid,rpd:rpd;"
+        + "rapids,rpds:rpds;"
+        + "rest,rst:rst;"
+        + "rdg,rdge,ridge:rdg;"
+        + "rdgs,rdges,ridges:rdgs;"
+        + "riv,river,rivr,rvr:riv;"
+        + "rds,roads:rds;"
+        + "route,rte:rte;"
+        + "row:row;"
+        + "rue:rue;"
+        + "run:run;"
+        + "shl,shoal:shl;"
+        + "shls,shoals:shls;"
+        + "shoar,shore,shr:shr;"
+        + "shoars,shores,shrs:shrs;"
+        + "skwy,skyway:skwy;"
+        + "spg,spng,spring,sprng:spg;"
+        + "spgs,spngs,springs,sprngs:spgs;"
+        + "spur,spurs:spur;"
+        + "sq,sqr,sqre,squ,square:sq;"
+        + "sqrs,sqs,squares:sqs;"
+        + "sta,station,statn,stn:sta;"
+        + "stra,strav,strave,straven,stravenue,stravn,strvn,strvnue:stra;"
+        + "stream,streme,strm:strm;"
+        + "sts,streets:sts;"
+        + "smt,sumit,sumitt,summit:smt;"
+        + "ter,terr,terrace:ter;"
+        + "throughway,trwy:trwy;"
+        + "trace,traces,trce:trce;"
+        + "track,tracks,trak,trk,trks:trak;"
+        + "trafficway,trfy:trfy;"
+        + "trail,trails,trl,trls,tr:trl;"
+        + "trailer,trlr,trlrs:trlr;"
+        + "tunel,tunl,tunls,tunnel,tunnels,tunnl:tunl;"
+        + "trnpk,turnpike,turnpk,tpke:tpke;"
+        + "underpass,upas:upas;"
+        + "un,union:un;"
+        + "uns,unions:uns;"
+        + "valley,vally,vlly,vly:vly;"
+        + "valleys,vlys:vllys:vlys;"
+        + "vdct,via,viaduct,viadct:via;"
+        + "view,vw:vw;"
+        + "views,vws:vws;"
+        + "vill,villag,village,villg,villiage,vlg:vlg;"
+        + "villages,vlgs:vlgs;"
+        + "ville,vl:vl;"
+        + "vis,vist,vista,vst,vsta:vis;"
+        + "walk,walks,wlk,wk:walk;"
+        + "wall:wall;"
+        + "way,wy:way;"
+        + "ways,wys:ways;"
+        + "well,wl:wl;"
+        + "wells,wls:wls;";
+
+        _commonStreetSuffixes = new HashSet<String>();
+        String[] commonSuffixes = _mostCommonStreetSuffixes.split(",|\\:|;");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  _mostCommonStreetSuffixes.split(",|\\:|;");
+        for(String currSuffix: commonSuffixes)
+            _commonStreetSuffixes.add(currSuffix.toLowerCase().trim());
+
+        _uncommonStreetSuffixes = new HashSet<String>();
+        String[] uncommonSuffixes = _lessCommonStreetSuffixes.split(",|\\:|;");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  _mostCommonStreetSuffixes.split(",|\\:|;");
+        for(String currSuffix: uncommonSuffixes)
+            _uncommonStreetSuffixes.add(currSuffix.toLowerCase().trim());
     }
 
     public static boolean streetNumber1(String s) {
@@ -140,7 +361,7 @@ public class TokenParserHelpers {
                 t.matches("\\w+") &&
                 !_directionals.contains(s.toLowerCase()) &&
                 !_directionals.contains(t.toLowerCase()) &&
-                !streetSuffix1(t) &&
+                !_commonStreetSuffixes.contains(t.toLowerCase()) &&
                 !state1(t) &&
                 !t.equalsIgnoreCase("county");
     }
@@ -155,7 +376,7 @@ public class TokenParserHelpers {
     public static boolean city1(String s) {
         return s.toLowerCase().matches("[a-z]+") &&
                 !state1(s) &&
-                !streetSuffix1(s) &&
+                !_commonStreetSuffixes.contains(s.toLowerCase()) &&
                 (!s.equalsIgnoreCase("county"));
     }
 
@@ -164,8 +385,8 @@ public class TokenParserHelpers {
                 t.toLowerCase().matches("[a-z]+") &&
                 !state2(s, t) &&
                 !t.equalsIgnoreCase("county") &&
-                !streetSuffix1(s) &&
-                !streetSuffix1(t) &&
+                !_commonStreetSuffixes.contains(s.toLowerCase()) &&
+                !_commonStreetSuffixes.contains(t.toLowerCase()) &&
                 !state1(t);
     }
 
@@ -182,7 +403,8 @@ public class TokenParserHelpers {
     }
 
     public static boolean streetSuffix1(String s) {
-        return _streetSuffixes.contains(s.toLowerCase());
+        return _commonStreetSuffixes.contains(s.toLowerCase()) ||
+                _uncommonStreetSuffixes.contains(s.toLowerCase());
     }
 
     public static boolean directional1(String s) {
