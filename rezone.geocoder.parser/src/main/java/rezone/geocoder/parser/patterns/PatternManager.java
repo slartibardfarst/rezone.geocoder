@@ -2,6 +2,7 @@ package rezone.geocoder.parser.patterns;
 
 import rezone.geocoder.parser.predicate.Predicate;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -14,9 +15,12 @@ public class PatternManager {
 
         //top-level rules
         s += "address :- address_line, city, state, zip;";
+        s += "address :- address_line, city, zip;";
+        s += "address :- address_line, city, state;";
 
-        s += "street_geo :- street, city, state, zip;";
-        s += "street_geo :- street, city, state;";
+        s += "street_geo :- street, city, [state], [zip];";
+        //s += "street_geo :- street, city, state;";
+        //s += "street_geo :- street, city, zip;";
 
         s += "city_geo :- city, state;";
         s += "city_geo :- city, zip;";
@@ -30,29 +34,26 @@ public class PatternManager {
         s += "zip_geo :- zip;";
 
         //non-terminals
-        s += "address_line :- street_number, street;";
-        s += "address_line :- street_number, street, unit;";
+        s += "address_line :- street_number, street, [unit];";
 
-        s += "street :- street_name, street_suffix;";
-        s += "street :- street_direction, street_name, street_suffix;";
-        s += "street :- street_name, street_suffix, street_post_direction;";
-
-        s += "street :- street_name;";
-        s += "street :- street_direction, street_name;";
-        s += "street :- street_name, street_post_direction;";
+        s += "street :- [street_direction], street_name, [street_suffix], [street_post_direction];";
 
         //terminal symbols
         s += "street_number :- street_no/1;";
         s += "street_name :- street/1;";
         s += "street_name :- street/2;";
+        s += "street_name :- street/3;";
         s += "street_suffix :- street_suffix/1;";
         s += "street_direction :- street_direction/1;";
+        s += "street_direction :- street_direction/2;";
         s += "street_post_direction :- street_post_direction/1;";
+        s += "street_post_direction :- street_post_direction/2;";
         s += "city :- city/1;";
         s += "city :- city/2;";
         s += "state :- state/1;";
         s += "state :- state/2;";
         s += "zip  :- zip/1;";
+        s += "unit :- unit/1;";
         s += "unit :- unit/2;";
         s += "county_name :- county/2;";
         s += "county_name :- county/3;";
@@ -65,9 +66,12 @@ public class PatternManager {
 
         result.put("street_no/1", new Predicate("street_no", (s) -> TokenParserHelpers.streetNumber1(s)));
         result.put("street_direction/1", new Predicate("street_direction", (s) -> TokenParserHelpers.directional1(s)));
+        result.put("street_direction/2", new Predicate("street_direction", (s, t) -> TokenParserHelpers.directional2(s, t)));
         result.put("street_post_direction/1", new Predicate("street_post_direction", (s) -> TokenParserHelpers.directional1(s)));
+        result.put("street_post_direction/2", new Predicate("street_post_direction", (s, t) -> TokenParserHelpers.directional2(s, t)));
         result.put("street/1", new Predicate("street", (s) -> TokenParserHelpers.streetName1(s)));
         result.put("street/2", new Predicate("street", (s, t) -> TokenParserHelpers.streetName2(s, t)));
+        result.put("street/3", new Predicate("street", (s, t, u) -> TokenParserHelpers.streetName3(s, t, u)));
         result.put("street_suffix/1", new Predicate("street_suffix", (s) -> TokenParserHelpers.streetSuffix1(s)));
         result.put("city/1", new Predicate("city", (s) -> TokenParserHelpers.city1(s)));
         result.put("city/2", new Predicate("city", (s, t) -> TokenParserHelpers.city2(s, t)));
@@ -75,6 +79,7 @@ public class PatternManager {
         result.put("state/2", new Predicate("state", (s, t) -> TokenParserHelpers.state2(s, t)));
         result.put("zip/1", new Predicate("zip", s -> TokenParserHelpers.zip1(s)));
         result.put("unit/2", new Predicate("unit", (s, t) -> TokenParserHelpers.unit2(s, t)));
+        result.put("unit/1", new Predicate("unit", (s) -> TokenParserHelpers.unit1(s)));
         result.put("county/2", new Predicate("county", (s, t) -> TokenParserHelpers.county2(s, t)));
         result.put("county/3", new Predicate("county", (s, t, u) -> TokenParserHelpers.county3(s, t, u)));
 
@@ -114,29 +119,38 @@ public class PatternManager {
             }
     }
 
-    private static List<ProductionRule> expandOptionalSymbolsInRules(List<ProductionRule> unexpandedRules) {
-        List<ProductionRule> result = new ArrayList<>();
+    private static Map<String, ProductionRule> expandOptionalSymbolsInRules(List<ProductionRule> unexpandedRules) {
+        Map<String, ProductionRule> result = new HashMap<>();
         for (ProductionRule currUnexpanded : unexpandedRules) {
             List<ProductionRule> expanded = new ArrayList<>();
             expandOptionalSymbolsInRule(currUnexpanded, expanded);
-            result.addAll(expanded);
+            for (ProductionRule currExpanded : expanded) {
+                if (!result.containsKey(currExpanded.getId()))
+                    result.put(currExpanded.getId(), currExpanded);
+            }
         }
 
         return result;
     }
 
-    private static List<ProductionRule> expandRules(List<ProductionRule> rules) {
-        List<ProductionRule> allTerminalSymbolsRules = new ArrayList<>();
-        for (ProductionRule currRule : rules)
-            recursivelyExpandRule(currRule, rules, allTerminalSymbolsRules);
+    private static List<ProductionRule> expandRules(Collection<ProductionRule> rules) {
+        Map<String, ProductionRule> allTerminalSymbolsRulesAcc = new HashMap<>();
+        for (ProductionRule currRule : rules) {
 
-        List<ProductionRule> deduplicatedExpandedRules = deduplicateRules(allTerminalSymbolsRules);
-        return deduplicatedExpandedRules;
+            System.out.println("Expanding " + currRule.getName());
+            recursivelyExpandRule(currRule, rules, allTerminalSymbolsRulesAcc);
+        }
+
+        //List<ProductionRule> deduplicatedExpandedRules = deduplicateRules(allTerminalSymbolsRules);
+        List<ProductionRule> expandedRules = new ArrayList<>(allTerminalSymbolsRulesAcc.values());
+        Collections.sort(expandedRules, (c1, c2) -> c1.getId().compareToIgnoreCase(c2.getId()));
+
+        return expandedRules;
     }
 
     public static void recursivelyExpandRule(ProductionRule currRule,
-                                             List<ProductionRule> definitions,
-                                             List<ProductionRule> terminalRulesAcc) {
+                                             Collection<ProductionRule> definitions,
+                                             Map<String, ProductionRule> terminalRulesAcc) {
         boolean allSymbolsTerminal = true; //default
         for (int i = 0; i < currRule.getSymbols().size(); i++) {
             String currSymbol = currRule.getSymbols().get(i);
@@ -151,8 +165,10 @@ public class PatternManager {
             }
         }
 
-        if (allSymbolsTerminal)
-            terminalRulesAcc.add(currRule);
+        if (allSymbolsTerminal && !terminalRulesAcc.containsKey(currRule.getId())) {
+            System.out.print('.');
+            terminalRulesAcc.put(currRule.getId(), currRule);
+        }
     }
 
     private static ProductionRule expandSymbolInRule(ProductionRule source, int iSymbol, ProductionRule symbolDefinition) {
@@ -190,7 +206,7 @@ public class PatternManager {
         return s.contains("/");
     }
 
-    private static List<ProductionRule> getSymbolDefinitions(String currSymbol, List<ProductionRule> definitions) {
+    private static List<ProductionRule> getSymbolDefinitions(String currSymbol, Collection<ProductionRule> definitions) {
         List<ProductionRule> result = new ArrayList<>();
         for (ProductionRule currRule : definitions)
             if (currRule.getName().equalsIgnoreCase(currSymbol))
@@ -226,11 +242,11 @@ public class PatternManager {
         return result;
     }
 
-    private static void markTopLevelRules(List<ProductionRule> rules) {
-        for (ProductionRule currRule : rules) {
+    private static void markTopLevelRules(Map<String, ProductionRule> rules) {
+        for (ProductionRule currRule : rules.values()) {
             String currRuleName = currRule.getName();
             boolean foundInAnotherRule = false; //default
-            for (ProductionRule otherRule : rules) {
+            for (ProductionRule otherRule : rules.values()) {
                 for (String currOtherRuleSymbol : otherRule.getSymbols()) {
                     if (currRuleName.equalsIgnoreCase(currOtherRuleSymbol)) {
                         foundInAnotherRule = true;
@@ -247,6 +263,45 @@ public class PatternManager {
     }
 
 
+    public static void writePatternsToFile(String Filename, List<Pattern> rules) {
+        try {
+            PrintWriter writer = new PrintWriter(Filename, "UTF-8");
+            for (Pattern currPatterns : rules)
+                writer.println(currPatterns.getPatternId());
+            writer.close();
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
+
+    public static List<Pattern> readPatternsFromFile(String filename, Map<String, Predicate> predicates) {
+        List<Pattern> result = new ArrayList<>();
+
+        try {
+            File file = new File(filename);
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                result.add(Pattern.buildPatternFromString(line, predicates));
+            }
+
+            br.close();
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+
+        return result;
+    }
+
+    public static List<Pattern>  setupPatterns(String patternsFilename)
+    {
+        Map<String, Predicate> predicates = definePredicates();
+        List<Pattern> result = readPatternsFromFile(patternsFilename, predicates);
+        return result;
+    }
+
     public static List<Pattern> setupPatterns() {
 
         //a rule has a name and a list of symbols
@@ -257,12 +312,21 @@ public class PatternManager {
 
         Map<String, Predicate> predicates = definePredicates();
         List<ProductionRule> rules = defineRules();
-        markTopLevelRules(rules);
-        List<ProductionRule> expandedRules = expandRules(rules);
-        List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
+        //markTopLevelRules(rules);
+        //List<ProductionRule> expandedRules = expandRules(rules);
+        //List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
 
+        System.out.format("There are %d production rules%n", rules.size());
+        Map<String, ProductionRule> expandedOptionals = expandOptionalSymbolsInRules(rules);
+        System.out.format("After expanding optionals there are now %d production rules%n", expandedOptionals.size());
+        markTopLevelRules(expandedOptionals);
+        List<ProductionRule> expandedRules = expandRules(expandedOptionals.values());
+        List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
         return patterns;
     }
+
+
+
 
 
 /*    public static List<Pattern> setupPatterns() {
@@ -324,11 +388,17 @@ public class PatternManager {
         public static List<Pattern> testListPatterns(String rulesString) {
             Map<String, Predicate> predicates = definePredicates();
             List<ProductionRule> rules = defineRules(rulesString);
-            List<ProductionRule> expandedOptionals = expandOptionalSymbolsInRules(rules);
+            Map<String, ProductionRule> expandedOptionals = expandOptionalSymbolsInRules(rules);
             markTopLevelRules(expandedOptionals);
-            List<ProductionRule> expandedRules = expandRules(expandedOptionals);
+            List<ProductionRule> expandedRules = expandRules(expandedOptionals.values());
             List<Pattern> patterns = convertRulesToPatterns(expandedRules, predicates);
             return patterns;
+        }
+
+        public static Map<String, Predicate> getPredicates()
+        {
+            Map<String, Predicate> predicates = definePredicates();
+            return predicates;
         }
     }
 }

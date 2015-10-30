@@ -2,8 +2,10 @@ package rezone.geocoder.parser.patterns;
 
 import junit.framework.TestCase;
 import org.junit.Test;
+import rezone.geocoder.parser.predicate.Predicate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by awatkins on 15-10-25.
@@ -39,7 +41,7 @@ public class PatternManagerTest extends TestCase {
         s += "state :- state/2;";
         s += "zip  :- zip/1;";
 
-        List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
+        List<Pattern> actualPatterns = PatternManager.PatternManagerTestClass.testListPatterns(s);
         assertEquals(8, actualPatterns.size());
     }
 
@@ -60,7 +62,7 @@ public class PatternManagerTest extends TestCase {
         s += "street_post_direction :- street_post_direction/1;";
         s += "unit :- unit/2;";
 
-        List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
+        List<Pattern> actualPatterns = PatternManager.PatternManagerTestClass.testListPatterns(s);
         assertEquals(16, actualPatterns.size());
     }
 
@@ -76,7 +78,53 @@ public class PatternManagerTest extends TestCase {
         s += "street_name :- street/2;";
         s += "unit :- unit/2;";
 
-        List<Pattern> actualPatterns =  PatternManager.PatternManagerTestClass.testListPatterns(s);
+        List<Pattern> actualPatterns = PatternManager.PatternManagerTestClass.testListPatterns(s);
         assertEquals(4, actualPatterns.size());
     }
+
+    @Test
+    public void testOptionalSymbols3() throws Exception {
+        String s = "";
+        s += "street :- [street_direction], street_name, [street_suffix], [street_post_direction];";
+
+        //terminal symbols
+        s += "street_number :- street_no/1;";
+        s += "street_name :- street/1;";
+        s += "street_name :- street/2;";
+        s += "street_name :- street/3;";
+        s += "street_suffix :- street_suffix/1;";
+        s += "street_direction :- street_direction/1;";
+        s += "street_direction :- street_direction/2;";
+        s += "street_post_direction :- street_post_direction/1;";
+        s += "street_post_direction :- street_post_direction/2;";
+    }
+
+    @Test
+    public void testReadAndWriteToFile1() throws Exception {
+
+        String s = "";
+        s += "address_line :- street_number, street_name, [unit];";
+
+        //terminal symbols
+        s += "street_number :- street_no/1;";
+        s += "street_name :- street/1;";
+        s += "street_name :- street/2;";
+        s += "unit :- unit/2;";
+
+        Map<String, Predicate> predicates = PatternManager.PatternManagerTestClass.getPredicates();
+        List<Pattern> patterns = PatternManager.PatternManagerTestClass.testListPatterns(s);
+
+        PatternManager.writePatternsToFile("/users/awatkins/patterns.csv", patterns);
+        List<Pattern> rehydratedPatterns = PatternManager.readPatternsFromFile("/users/awatkins/patterns.csv", predicates);
+    }
+
+    @Test
+    public void testReadAndWriteToFile2() throws Exception {
+        Map<String, Predicate> predicates = PatternManager.PatternManagerTestClass.getPredicates();
+        List<Pattern> patterns = PatternManager.setupPatterns();
+
+        PatternManager.writePatternsToFile("/users/awatkins/patterns3.csv", patterns);
+        List<Pattern> rehydratedPatterns = PatternManager.readPatternsFromFile("/users/awatkins/patterns3.csv", predicates);
+    }
+
 }

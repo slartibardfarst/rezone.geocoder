@@ -4,7 +4,9 @@ import rezone.geocoder.parser.InputTokens;
 import rezone.geocoder.parser.predicate.Predicate;
 import rezone.geocoder.parser.predicate.PredicateMatch;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A Pattern is an ordered list of predicates that captures one possible address pattern.
@@ -65,9 +67,28 @@ public class Pattern {
         return result;
     }
 
+    public static Pattern buildPatternFromString(String s, Map<String, Predicate> predicates)
+    {
+        String[] parts = s.split(":-");
+        String[] predicateNames = parts[1].split(",");
+
+        List<Predicate> patternPredicates = new ArrayList<>();
+        for(String currPredName: predicateNames)
+        {
+            Predicate p = predicates.get(currPredName.toLowerCase().trim());
+            patternPredicates.add(p);
+        }
+
+        Predicate[] preds = new Predicate[patternPredicates.size()];
+        Pattern result = new Pattern(parts[0], patternPredicates.toArray(preds));
+        return result;
+    }
+
     private String buildPatternId() {
         boolean firstItem = true;
         StringBuilder sb = new StringBuilder();
+        sb.append(_name);
+        sb.append(":-");
         for (Predicate currPredicate : _predicates) {
             if (firstItem)
                 firstItem = false;
