@@ -66,6 +66,8 @@ public class TokenParserHelpers {
             add("south carolina");
             add("tx");
             add("texas");
+            add("tn");
+            add("tennessee");
             add("ut");
             add("utah");
             add("va");
@@ -142,6 +144,7 @@ public class TokenParserHelpers {
             add("spc");
             add("ph");
             add("lot");
+            add("apt");
         }};
 
         _mostCommonStreetSuffixes = ""
@@ -450,7 +453,7 @@ public class TokenParserHelpers {
         return s.toLowerCase().matches("(unit|ste|#)?\\d{1,3}[a-zA-Z]{0,2}");
     }
 
-    public static boolean unit2(String s, String t) {return _unitDescriptors.contains(s.toLowerCase()) && t.matches("#?\\d+-?\\w*"); }
+    public static boolean unit2(String s, String t) {return _unitDescriptors.contains(s.toLowerCase()) && t.toLowerCase().matches("#?([a-z]?|\\d+)-?\\w*"); }
 
     public static boolean county2(String s, String t) {return s.toLowerCase().matches("[a-z]+") && t.equalsIgnoreCase("county");}
     public static boolean county3(String s, String t, String u) {return s.toLowerCase().matches("[a-z]+") && t.toLowerCase().matches("[a-z]+") && u.equalsIgnoreCase("county");}
