@@ -50,6 +50,8 @@ public class TokenParserHelpers {
             add("massachusetts");
             add("mi");
             add("michigan");
+            add("mt");
+            add("montana");
             add("nc");
             add("north carolina");
             add("nd");
@@ -391,16 +393,15 @@ public class TokenParserHelpers {
                 !_directionals.contains(t.toLowerCase()) &&
                 !_commonStreetSuffixes.contains(t.toLowerCase()) &&
                 !state1(t) &&
-                !t.equalsIgnoreCase("county");
+                !t.equalsIgnoreCase("county") &&
+                !zip1(t);
     }
 
 
     public static boolean streetName3(String s, String t, String u) {
-        //what if I allow 3-word streets
-        return  s.toLowerCase().matches("[a-z]{1,8}") &&
-                streetName2(t,u);
-//        return (s.equalsIgnoreCase("state") && t.equalsIgnoreCase("route") && u.matches("\\d+")) ||
-//                (t.equalsIgnoreCase("and") && streetName1(s) && streetName1(t));
+        return (s.equalsIgnoreCase("state") && t.equalsIgnoreCase("route") && u.matches("\\d+")) ||
+                (t.equalsIgnoreCase("and") && streetName1(s) && streetName1(t)) ||
+                (!streetSuffix1(t) && s.toLowerCase().matches("[a-z]{1,8}") && streetName2(t, u));
     }
 
     public static boolean city1(String s) {
@@ -461,17 +462,25 @@ public class TokenParserHelpers {
         return s.equals(",");
     }
 
+    public static boolean pre_unit1(String s) {
+        return s.toLowerCase().matches("[a-z]{0,2}\\d+[a-z]{0,2}") &&
+                post_unit1(s);
+    }
 
-    public static boolean unit1(String s) {
-        return !streetSuffix1(s)  &&
+    public static boolean pre_unit2(String s, String t) {
+        return post_unit2(s, t);
+    }
+
+    public static boolean post_unit1(String s) {
+        return !streetSuffix1(s) &&
                 ((s.length() <= 1) || !directional1(s)) &&
                 s.toLowerCase().matches("(unit|ste|#)?[a-z0-9]{1,9}-?[a-z0-9]{0,2}");
     }
 
-    public static boolean unit2(String s, String t) {
+    public static boolean post_unit2(String s, String t) {
         s = s.toLowerCase();
         return (_unitDescriptors.contains(s) || _unitDescriptors.contains(s.replaceAll(":|#", ""))) &&
-                unit1(t);
+                post_unit1(t);
     }
 
     public static boolean county2(String s, String t) {

@@ -51,8 +51,8 @@ public class QueryParserTests {
     @Test
     @Parameters({
             "123 Main St; New York; NY 10010      |1| [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
-            "123 Main St New York. NY 10010       |1| [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
-            "123 Main St New York NY 10010        |1| [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
+            "123 Main St New York. NY 10010       |2| [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
+            "123 Main St New York NY 10010        |2| [{ geo_type: ADDRESS; address_line: '123 Main St'; street_no: '123'; street_direction: null;  street: 'Main'; street_suffix: 'St'; street_post_direction: null; city: 'New York'; state: 'NY'; zip: '10010'; unit: null }]",
             "123 E 21st st. Brooklyn NY 11020     |1| [{ geo_type: ADDRESS; address_line: '123 E 21st St'; street_no: '123'; street_direction: 'E'; street: '21st'; street_suffix: 'St'; street_post_direction: null; city: 'Brooklyn'; state: 'NY'; zip: '11020'; unit: null }]",
             "754 Pharr Rd. Atlanta. Georgia 31035 |1| [{ geo_type: ADDRESS; address_line: '754 Pharr Rd'; street_no: '754'; street: 'Pharr'; street_suffix: 'Rd'; city: 'Atlanta'; state: 'Georgia'; zip: '31035' }]",
             "Texas 76013                          |1| [{ geo_type: STATE; state: 'Texas'; zip: '76013' }]",
@@ -239,11 +239,11 @@ public class QueryParserTests {
             "572 E Willow St Elizabethtown PA                   | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'E'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 NE Willow St Elizabethtown PA                  | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'NE'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 northeast Willow St Elizabethtown PA           | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'northeast'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
-            "572 north east Willow St Elizabethtown PA          | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'north east'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
+            "572 north east Willow St Elizabethtown PA          | 2 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'north east'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "10776 Mieras Dr NE; Sparta;MI;49345                | 1 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
             "10776 Mieras Dr NE Sparta;MI;49345                 | 2 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
-            "5870 State Route 669 NE Somerset OH                | 4 |  [{ geo_type: ADDRESS; street_no: '5870'; street: 'State Route 669'; street_post_direction: 'NE'; city: 'Somerset'; state:'OH'}]",
-            "249 E 275 Rd N Marshall 47859                      | 2 |  [{ geo_type: ADDRESS; street_no: '249';  street_direction: 'E'; street: '275'; street_suffix: 'Rd'; street_post_direction: 'N'; city: 'Marshall'; zip:'47859'}]"
+            "5870 State Route 669 NE Somerset OH                | 2 |  [{ geo_type: ADDRESS; street_no: '5870'; street: 'State Route 669'; street_post_direction: 'NE'; city: 'Somerset'; state:'OH'}]",
+            "249 E 275 Rd N Marshall 47859                      | 3 |  [{ geo_type: ADDRESS; street_no: '249';  street_direction: 'E'; street: '275'; street_suffix: 'Rd'; street_post_direction: 'N'; city: 'Marshall'; zip:'47859'}]"
     })
     public void expectedStreetAddressVariationTests_1_to_8(String input, int expectNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -278,7 +278,7 @@ public class QueryParserTests {
             "2565 Broadway St Unit 234BC; Vancouver;WA; 98663    | 99 |  [{ geo_type: ADDRESS; street_no: '2565'; street: 'Broadway'; street_suffix: 'St'; unit: 'Unit 234BC'; city: 'Vancouver'; state: 'WA'; zip:'98663'}]",
             "2565 Broadway St # 234BC; Vancouver;WA; 98663       | 99 |  [{ geo_type: ADDRESS; street_no: '2565'; street: 'Broadway'; street_suffix: 'St'; unit: '# 234BC'; city: 'Vancouver'; state: 'WA'; zip:'98663'}]",
             "2565 Broadway St 234BC; Vancouver;WA; 98663         | 99 |  [{ geo_type: ADDRESS; street_no: '2565'; street: 'Broadway'; street_suffix: 'St'; unit: '234BC'; city: 'Vancouver'; state: 'WA'; zip:'98663'}]",
-            "1465 E 41st Ave; Vancouver 98661+5885               | 99 |  [{ geo_type: ADDRESS; street_no: '1465'; street_direction: 'E'; street: '41st'; street_suffix: 'Ave'; city: 'Vancouver'; zip:'98661+5885'}]",
+            "1465 E 41st Ave; Vancouver 98661-5885               | 1  |  [{ geo_type: ADDRESS; street_no: '1465'; street_direction: 'E'; street: '41st'; street_suffix: 'Ave'; city: 'Vancouver'; zip:'98661-5885'}]"
     })
     public void expectedStreetAddressVariationTests_9_to_end(String input, int expectNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");

@@ -36,8 +36,8 @@ public class PatternManager {
         s += "zip_geo :- zip;";
 
         //non-terminals
-        s += "address_line :- street_number, street, [unit];";
-        s += "address_line :- street_number, [unit], street;";
+        s += "address_line :- street_number, street, [post_unit];";
+        s += "address_line :- street_number, [pre_unit], street;";
 
         s += "street :- [street_direction], street_name, [street_suffix], [street_post_direction];";
 
@@ -58,8 +58,10 @@ public class PatternManager {
         s += "state :- state/2;";
         s += "zip  :- zip/1;";
         s += "zip  :- zip/2;";
-        s += "unit :- unit/1;";
-        s += "unit :- unit/2;";
+        s += "pre_unit :- pre_unit/1;";
+        s += "pre_unit :- pre_unit/2;";
+        s += "post_unit :- post_unit/1;";
+        s += "post_unit :- post_unit/2;";
         s += "county_name :- county/2;";
         s += "county_name :- county/3;";
         s += "comma :- comma/1;";
@@ -86,8 +88,10 @@ public class PatternManager {
         result.put("state/2", new Predicate("state", (s, t) -> TokenParserHelpers.state2(s, t)));
         result.put("zip/1", new Predicate("zip", s -> TokenParserHelpers.zip1(s)));
         result.put("zip/2", new Predicate("zip", (s,t) -> TokenParserHelpers.zip2(s,t)));
-        result.put("unit/2", new Predicate("unit", (s, t) -> TokenParserHelpers.unit2(s, t)));
-        result.put("unit/1", new Predicate("unit", (s) -> TokenParserHelpers.unit1(s)));
+        result.put("pre_unit/1", new Predicate("unit", (s) -> TokenParserHelpers.pre_unit1(s)));
+        result.put("pre_unit/2", new Predicate("unit", (s, t) -> TokenParserHelpers.pre_unit2(s, t)));
+        result.put("post_unit/1", new Predicate("unit", (s) -> TokenParserHelpers.post_unit1(s)));
+        result.put("post_unit/2", new Predicate("unit", (s, t) -> TokenParserHelpers.post_unit2(s, t)));
         result.put("county/2", new Predicate("county", (s, t) -> TokenParserHelpers.county2(s, t)));
         result.put("county/3", new Predicate("county", (s, t, u) -> TokenParserHelpers.county3(s, t, u)));
         result.put("comma/1", new Predicate("comma", (s) -> TokenParserHelpers.comma1(s)));
