@@ -30,7 +30,8 @@ public class QueryParser {
     public Geo[] parse(String query, ParseDebug dbg) {
         if(null!= dbg) {dbg.startStopwatch();}
         InputTokens tokenizedQuery = InputTokens.tokenize(query);
-        List<PatternMatch> patternMatches = testPatterns(tokenizedQuery, dbg);
+        List<PatternMatch> allMatches = testPatterns(tokenizedQuery, dbg);
+        List<PatternMatch> filteredMatches = discardNonsenseMatches(allMatches);
 
         if(null != dbg) {
             dbg.stopStopwatch();
@@ -40,8 +41,8 @@ public class QueryParser {
         }
 
         List<Geo> result = new ArrayList<>();
-        if (null != patternMatches)
-            for (PatternMatch currMatch : patternMatches)
+        if (null != filteredMatches)
+            for (PatternMatch currMatch : filteredMatches)
                 result.add(new Geo(currMatch));
 
         return result.toArray(new Geo[0]);
@@ -65,4 +66,14 @@ public class QueryParser {
         return successfulMatches;
     }
 
+
+    private List<PatternMatch> discardNonsenseMatches(List<PatternMatch> allMatches)
+    {
+        List<PatternMatch> result = new ArrayList<>();
+        for(PatternMatch currMatch: allMatches)
+            if(currMatch.isSensibleMatch())
+                result.add(currMatch);
+
+        return result;
+    }
 }

@@ -57,6 +57,7 @@ public class PatternManager {
         s += "state :- state/1;";
         s += "state :- state/2;";
         s += "zip  :- zip/1;";
+        s += "zip  :- zip/2;";
         s += "unit :- unit/1;";
         s += "unit :- unit/2;";
         s += "county_name :- county/2;";
@@ -84,6 +85,7 @@ public class PatternManager {
         result.put("state/1", new Predicate("state", (s) -> TokenParserHelpers.state1(s)));
         result.put("state/2", new Predicate("state", (s, t) -> TokenParserHelpers.state2(s, t)));
         result.put("zip/1", new Predicate("zip", s -> TokenParserHelpers.zip1(s)));
+        result.put("zip/2", new Predicate("zip", (s,t) -> TokenParserHelpers.zip2(s,t)));
         result.put("unit/2", new Predicate("unit", (s, t) -> TokenParserHelpers.unit2(s, t)));
         result.put("unit/1", new Predicate("unit", (s) -> TokenParserHelpers.unit1(s)));
         result.put("county/2", new Predicate("county", (s, t) -> TokenParserHelpers.county2(s, t)));

@@ -52,5 +52,8 @@ public class PatternMatch {
         return _predicateMatches;
     }
 
-
+    public boolean isSensibleMatch()
+    {
+        return true;
+    }
 }
