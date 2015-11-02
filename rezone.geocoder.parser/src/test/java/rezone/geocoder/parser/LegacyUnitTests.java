@@ -131,55 +131,49 @@ public class LegacyUnitTests {
 
     @Test
     @Parameters({
-            "1005 Ste #5 N 9th;Boise;ID;83702 |99| [{ geo_type: ADDRESS; address_line: '1005 N 9th Ste 5';street_no: '1005';street_direction: 'N'; street: '9th';city: 'Boise'; state: 'ID';zip: '83702';unit: 'Ste #5'}]",
-            "218 W. Austin Apt 1-4;Nacogdoches;TX;75961 |99| [{ geo_type: ADDRESS; address_line: '218 W Austin Apt 1-4';street_no: '218';street_direction: 'W';street: 'Austin';city: 'Nacogdoches';state: 'TX';zip_plus_four: '2768';unit: 'Apt 1-4'}]",
-            "500 Paragon Mills Road Apt E-8 ;Nashville;TN;37211 |99| [{ geo_type: ADDRESS; address_line: '500 Paragon Mills Rd Apt E8';street_no: '500';street_suffix: 'Rd';city: 'Nashville';state: 'TN';zip_plus_four: '3732';unit: 'Apt E8'}]",
-            "5104 S E 30th Avenue;PORTLAND;OR;97202 |99| [{ geo_type: ADDRESS;  address_line: '5104 SE 30th Ave'; street_no: '5104'; street_direction: 'S E'; street_suffix: 'Avenue' ; city: 'Portland'; state: 'OR'; zip: '97202'}]",
-            "3500 N Hayden -- Unit: 1903;Scottsdale;AZ;85251 |99| [{ geo_type: ADDRESS;  address_line: '3500 N Hayden Unit 1903'; street_no: '3500'; street_direction: 'N'; street_suffix: null; city: 'Scottsdale'; state: 'AZ'; zip: '85251'; unit:'Unit 1903' }]",
-            "1915 Broadway St Unit ALEXANDER;San Antonio;TX;78215 |99| [{ geo_type: ADDRESS;  address_line: '1915 Broadway St Unit Alexander'; street_no: '1915'; street_suffix: 'St'; city: 'San Antonio'; state: 'TX'; zip: '78215'; unit:'Unit Alexander' }]",
-            //"2204 N Berkshire Rd - Gardenwood Apartments;Charlottesville;VA;22901 |99| [{ geo_type: ADDRESS;  address_line: '2204 N Berkshire Rd'; street_no: '2204'; street_direction: 'N'; street_suffix: 'Rd'; city: 'Charlottesville'; state: 'VA'; zip: '22901'}]",
-            //"Cambridge Court Apartments 139 Edgewood Avenue - Apt 209;Edgewood;PA;15218 |99| [{ geo_type: ADDRESS;  address_line: '139 Edgewood Ave Apt 209'; street_no: '139'; street_suffix: 'Ave'; city: 'Edgewood'; state: 'PA'; zip: '15218'; unit:'Apt 209' }]",
-            "Normandy Apartments 5530 Fifth Avenue - Apt 2A;Pittsburgh;PA;15232 |99| [{ geo_type: ADDRESS;  address_line: '5530 Fifth Ave Apt 2A'; street_no: '5530'; street_suffix: 'Ave'; city: 'Pittsburgh'; state: 'PA'; zip: '15232'; unit:'Apt 2A' }]",
-            "LUXURY BUILDING APARTMENTS;New York;NY;10016 |99| [{ geo_type: ADDRESS;  address_line: null; street_no: null; street_suffix: null; city: 'New York'; state: 'NY'; zip: '10016'; unit:null }]",
-            "217 Town And Country Dr;Danville;CA;94526 |99| [{ geo_type: ADDRESS;  address_line: '217 Town and Country Dr'; street_no: '217'; street_suffix: 'Dr'; city: 'Danville'; state: 'CA'; zip: '94526'; unit:null }]",
-            "277 Main St # 6-B;Aurora;NY;14052 |99| [{ geo_type: ADDRESS;  address_line: '277 Main St # 6B'; street_no: '277'; street: 'Main'; street_suffix: 'St'; city: 'Aurora'; state: 'NY'; zip: '14052'; unit:'# 6-B' }]",
-            "886 Wellman Avenue Unit: 886;Chelmsford;MA;01863 |99| [{ geo_type: ADDRESS;  address_line: '886 Wellman Ave'; street_no: '886'; street_suffix: 'Ave'; city: 'Chelmsford'; state: 'MA'; zip: '01863'; unit:null }]",
-            "43 Blackmount Lane Unit: 43;Fairfield;CT;06825 |99| [{ geo_type: ADDRESS;  address_line: '43 Blackmount Ln'; street_no: '43'; street_suffix: 'Ln'; city: 'Fairfield'; state: 'CT'; zip: '06825'; unit:null }]",
-            "234 North West Smith Street;PORTLAND;OR;97202 |99| [{ geo_type: ADDRESS;  address_line: '234 NW Smith St'; street_no: '234'; street_direction: 'North West'; street: 'Smith'; street_suffix: 'Street'; city: 'Portland'; state: 'OR'; zip: '97202'; unit:null }]",
-            "6829 CINNABAR COAST LANE;North las vegas;NV;89084-1202 |99| [{ geo_type: ADDRESS;  address_line: '6829 Cinnabar Coast Ln'; street_no: '6829'; street_suffix: 'Ln'; city: 'North Las Vegas'; state: 'NV'; zip: '89084'; unit:null }]",
-            //"attrshidefalse text30 Catherines Way;MANCHESTER;CT;06042 |99| [{ geo_type: ADDRESS;  address_line: 'Attrshidefalse Text30 Catherines Way'; street_no: null; street_suffix: 'Way' ; city: 'Manchester'; state: 'CT'; zip: '06042'}]",
-            //"148 Estupenda Residencia Bo. Zanjas Comunidad Espiet;Camuy;PR;00627 |99| [{ geo_type: ADDRESS;  address_line: '148 Estupenda Residencia Bo Zanjas Comunidad Espiet'; street_no: '148'; street_suffix: null ; city: 'Camuy'; state: 'PR'; zip: '00627'}]",
-            "1345 Commonwealth Ave.;Boston;MA;02134 |99| [{ geo_type: ADDRESS;  address_line: '1345 Commonwealth Ave'; street_no: '1345'; street_suffix: 'Ave' ; city: 'Boston'; state: 'MA'; zip: '02134'}]",
-            "2030 N Via Silverado Unit: 3;Camp Verde;AZ;86322 |99| [{ geo_type: ADDRESS;  address_line: '2030 N Via Silverado Unit 3'; street_no: '2030'; street_direction: 'N'; street: 'Via Silverado'; city: 'Camp Verde'; state: 'AZ'; zip: '86322'; unit: 'Unit 3'}]",
-            "0 BARTHOLOMEW ST;Christmas;FL;32709 |99| [{ geo_type: ADDRESS;  address_line: 'Bartholomew St'; street_no: '0'; street: 'BARTHOLOMEW'; street_suffix: 'St'; city: 'Christmas'; state: 'FL'; zip: '32709'}]",
-            "3214 S West Street;Covington;GA;30014 |99| [{ geo_type: ADDRESS;  address_line: '3214 S West St'; street_no: '3214'; street_direction: 'S'; street: 'West'; street_suffix: 'Street'; city: 'Covington'; state: 'GA'; zip: '30014' }]",
-            "133 S JACKSON St -A-7;Denver;CO;80209 |99| [{ geo_type: ADDRESS;  address_line: '133 S Jackson St # A7'; street_no: '133'; street_direction: 'S'; street_suffix: 'St'; city: 'Denver'; state: 'CO'; zip: '80209'; unit: '# A7' }]",
-            "24055 NE North Valley Rd;Newberg;OR;97132 |99| [{ geo_type: ADDRESS;  address_line: '24055 NE North Valley Rd'; street_no: '24055'; street_direction: 'NE'; street_suffix: 'Rd'; city: 'Newberg'; state: 'OR'; zip: '97132' }]",
-            "13341 Sweet Flag - Gh315;Black Butte Ranch;OR;97759 |99| [{ geo_type: ADDRESS;  address_line: '13341 Sweet Flag # 315'; street_no: '13341'; street: 'Sweet Flag'; city: 'Black Butte Ranch'; state: 'OR'; zip: '97759'; unit: '# 315' }]",
-            "xxx Shoreline Drive;Panacea;FL;32346 |99| [{ geo_type: STREET;  address_line: 'Shoreline Dr'; street: 'xxx Shoreline'; street_suffix: 'Dr'; city: 'Panacea'; state: 'FL'; zip: '32346' }]",
-            "XXX SUMMER OAKS BLVD;Bismarck;AR |99| [{ geo_type: ADDRESS;  address_line: 'Summer Oaks Blvd'; street_suffix: 'Blvd'; city: 'Bismarck'; state: 'AR' }]",
-            "618 Meadows; Dallas; PA; 18612 |99| [{ geo_type: ADDRESS;  address_line: '618 Meadows'; street: 'Meadows'; street_no: '618'; street_suffix: null; city: 'Dallas'; state: 'PA'; zip: '18612' }]",
-            "5 Lot s Enderbury; Rome; GA; 30161 |99| [{ geo_type: ADDRESS;  address_line: '5 Lots Enderbury'; street_no: null; street_suffix: null; city: 'Rome'; state: 'GA'; zip: '30161' }]",
-            "Off Hwy 80 Lot 1-6;Burnsville;NC;28714 |99| [{ geo_type: ADDRESS;  address_line: 'Off Highway 80 Lot 1-6'; street_no: null; street_suffix: null; city: 'Burnsville'; state: 'NC'; zip: '28714'; unit: 'Lot 1-6' }]",
-            "Off Hwy 80 Lot 1thru6;Burnsville;NC;28714 |99| [{ geo_type: ADDRESS;  address_line: 'Off Highway 80 Lot 1-6'; street_no: null; street_suffix: null; city: 'Burnsville'; state: 'NC'; zip: '28714'; unit: 'Lot 1-6' }]",
-            "Lot 1 Entrada;Pecos;NM;87552 |99| [{ geo_type: ADDRESS;  address_line: 'Entrada Lot 1'; street_no: null; street_suffix: null; city: 'Pecos'; state: 'NM'; zip: '87552';unit: 'Lot 1' }]",
-            "89A #216 Westwood Chateau;Marion;NC;28752 |99| [{ geo_type: ADDRESS;  address_line: '89A Westwood Chateau # 216'; street_no: '89A'; street: 'Westwood Chateau'; street_no: null; street_suffix: null; city: 'Marion'; state: 'NC'; zip: '28752';unit: '#216' }]",
-            "433 S Murphy Ave; San Jose; QQ; 00015 |99| [{ geo_type: ADDRESS;  address_line: '433 S Murphy Ave'; street_no: '433'; street_direction: 'S'; street_suffix: 'Ave'; city: 'San Jose'; state: null; zip: '00015'; unit: null }]",
-            "2604 ROAD 123;Meeker;CO |99| [{ geo_type: ADDRESS;  address_line: '2604 Road 123'; street_no: '2604'; street: 'Road 123'; street_direction: null; street_suffix: null; city: 'Meeker'; state: 'CO'; zip: null; unit: null }]",
-            "1819 Fruitvale Blvd Unit: Lt A;Yakima;WA;98902 |99| [{ geo_type: ADDRESS; address_line: '1819 Fruitvale Blvd Lot A';street_no: '1819';street_suffix: 'Blvd';city: 'Yakima';state: 'WA';zip: '98902';unit: 'Lot A'}]",
-            //"2021 Ivy Rd - University Forum Apartments;Charlottesville;VA;22903 |99| [{ geo_type: ADDRESS;  address_line: '2021 Ivy Rd'; street_no: '2021'; street_direction: null; street_suffix: 'Rd'; city: 'Charlottesville'; state: 'VA'; zip: '22903'; unit: null }]",
-            //"Hidden Pines Apartments 2527 Milligan Way - Apt C103;Swissvale;PA;15218 |99| [{ geo_type: ADDRESS;  address_line: '2527 Milligan Way Apt C103'; street_no: '2527'; street_direction: null; street_suffix: 'Way'; city: 'Swissvale'; state: 'PA'; zip: '15218'; unit: 'Apt C103' }]",
-           // "417 River Bend Apartments   # X ;Riverside;AL;35135 |99| [{ geo_type: ADDRESS;  address_line: '417 X'; street_no: '417'; street_direction: null; street_suffix: null; city: 'Riverside'; state: 'AL'; zip: '35135'; unit: null }]",
-            //"297 Boulder Creek Drive E Dry Creek Apartments;Redding;CA;96003 |99| [{ geo_type: ADDRESS;  address_line: '297 Boulder Creek Dr E'; street_no: '297'; street_direction: null; street_post_direction: 'E'; city: 'Redding'; state: 'CA'; zip: '96003'; unit: null }]",
-            "2559 12th Avenue North West;Columbia Falls;MT;59912 |99| [{ geo_type: ADDRESS;  address_line: '2559 12th Ave NW'; street_no: '2559'; street_direction: null; street_post_direction: 'NW'; city: 'Columbia Falls'; state: 'MT'; zip: '59912'; unit: null }]",
+            "1005 Ste #5 N 9th;Boise;ID;83702 |99| [{ geo_type: ADDRESS;street_no: '1005';street_direction: 'N'; street: '9th';unit: 'Ste #5';city: 'Boise'; state: 'ID';zip: '83702'}]",
+            "218 W. Austin Apt 1-4;Nacogdoches;TX;75961 |99| [{ geo_type: ADDRESS;street_no: '218';street_direction: 'W';street: 'Austin';unit: 'Apt 1-4';city: 'Nacogdoches';state: 'TX';zip: '75961'}]",
+            "500 Paragon Mills Road Apt E-8 ;Nashville;TN;37211 |99| [{ geo_type: ADDRESS;street_no: '500'; street: 'Paragon Mills'; street_suffix: 'Road';unit: 'Apt E-8';city: 'Nashville';state: 'TN';zip: '37211'}]",
+            "5104 S E 30th Avenue;PORTLAND;OR;97202 |99| [{ geo_type: ADDRESS; street_no: '5104'; street_direction: 'S E'; street: '30th'; street_suffix: 'Avenue' ; city: 'Portland'; state: 'OR'; zip: '97202'}]",
+            "3500 N Hayden -- Unit: 1903;Scottsdale;AZ;85251 |99| [{ geo_type: ADDRESS; street_no: '3500'; street_direction: 'N'; street: 'Hayden'; street_suffix: null; unit:'Unit: 1903' ; city: 'Scottsdale'; state: 'AZ'; zip: '85251'}]",
+            "1915 Broadway St Unit ALEXANDER;San Antonio;TX;78215 |99| [{ geo_type: ADDRESS; street_no: '1915'; street: 'Broadway'; street_suffix: 'St'; unit:'Unit Alexander' ; city: 'San Antonio'; state: 'TX'; zip: '78215'}]",
+            //"LUXURY BUILDING APARTMENTS;New York;NY;10016 |99| [{ geo_type: ADDRESS; street_no: null; street_suffix: null; unit:null ; city: 'New York'; state: 'NY'; zip: '10016'}]",
+            "217 Town And Country Dr;Danville;CA;94526 |99| [{ geo_type: ADDRESS; street_no: '217'; street: 'Town And Country'; street_suffix: 'Dr'; unit:null ; city: 'Danville'; state: 'CA'; zip: '94526'}]",
+            "277 Main St # 6-B;Aurora;NY;14052 |99| [{ geo_type: ADDRESS; street_no: '277'; street: 'Main'; street_suffix: 'St'; unit:'# 6-B' ; city: 'Aurora'; state: 'NY'; zip: '14052'}]",
+            "886 Wellman Avenue Unit: 886;Chelmsford;MA;01863 |99| [{ geo_type: ADDRESS; street_no: '886'; street: 'Wellman'; street_suffix: 'Avenue'; unit:'Unit: 886' ; city: 'Chelmsford'; state: 'MA'; zip: '01863'}]",
+            "43 Blackmount Lane Unit: 43;Fairfield;CT;06825 |99| [{ geo_type: ADDRESS; street_no: '43'; street: 'Blackmount'; street_suffix: 'Lane'; unit:'Unit: 43' ; city: 'Fairfield'; state: 'CT'; zip: '06825'}]",
+            // what should the expected output be? "234 North West Smith Street;PORTLAND;OR;97202 |99| [{ geo_type: ADDRESS; street_no: '234'; street_direction: 'NW'; street_suffix: 'St'; unit:null ; city: 'Portland'; state: 'OR'; zip: '97202'}]",
+            "6829 CINNABAR COAST LANE;North las vegas;NV;89084-1202 |99| [{ geo_type: ADDRESS; street_no: '6829'; street: 'CINNABAR COAST'; street_suffix: 'Lane'; unit:null ; city: 'North Las Vegas'; state: 'NV'; zip: '89084'}]",
+            "1345 Commonwealth Ave.;Boston;MA;02134 |99| [{ geo_type: ADDRESS; street_no: '1345'; street: 'Commonwealth';street_suffix: 'Ave' ; city: 'Boston'; state: 'MA'; zip: '02134'}]",
+            "2030 N Via Silverado Unit: 3;Camp Verde;AZ;86322 |99| [{ geo_type: ADDRESS; street_no: '2030'; street_direction: 'N'; street: 'Via Silverado'; unit: 'Unit: 3'; city: 'Camp Verde'; state: 'AZ'; zip: '86322'}]",
+            "0 BARTHOLOMEW ST;Christmas;FL;32709 |99| [{ geo_type: ADDRESS; street_no: '0'; street: 'Bartholomew'; street_suffix: 'St'; city: 'Christmas'; state: 'FL'; zip: '32709'}]",
+            "3214 S West Street;Covington;GA;30014 |99| [{ geo_type: ADDRESS; street_no: '3214'; street_direction: 'S'; street: 'West';street_suffix: 'Street'; city: 'Covington'; state: 'GA'; zip: '30014' }]",
+            "133 S JACKSON St -A-7;Denver;CO;80209 |99| [{ geo_type: ADDRESS; street_no: '133'; street_direction: 'S'; street_suffix: 'St'; unit: '# A7' ; city: 'Denver'; state: 'CO'; zip: '80209'}]",
+            "24055 NE North Valley Rd;Newberg;OR;97132 |99| [{ geo_type: ADDRESS; street_no: '24055'; street_direction: 'NE'; street: 'North Valley'; street_suffix: 'Rd'; city: 'Newberg'; state: 'OR'; zip: '97132' }]",
+            "13341 Sweet Flag - Gh315;Black Butte Ranch;OR;97759 |99| [{ geo_type: ADDRESS; street_no: '13341'; street: 'Sweet Flag'; unit: '# 315' ; city: 'Black Butte Ranch'; state: 'OR'; zip: '97759'}]",
+            "xxx Shoreline Drive;Panacea;FL;32346 |99| [{ geo_type: ADDRESS; street: 'Shoreline'; street_suffix: 'Drive'; city: 'Panacea'; state: 'FL'; zip: '32346' }]",
+            "XXX SUMMER OAKS BLVD;Bismarck;AR |99| [{ geo_type: ADDRESS; street: 'SUMMER OAKS';street_suffix: 'Blvd'; city: 'Bismarck'; state: 'AR' }]",
+            "618 Meadows; Dallas; PA; 18612 |99| [{ geo_type: ADDRESS; street_no: '618'; street: 'Meadows'; street_suffix: null; city: 'Dallas'; state: 'PA'; zip: '18612' }]",
+            "5 Lot s Enderbury; Rome; GA; 30161 |99| [{ geo_type: ADDRESS; street_no: 5; street: 'Enderbury'; street_suffix: null; unit: 'Lot s'; city: 'Rome'; state: 'GA'; zip: '30161' }]",
+            "Off Hwy 80 Lot 1-6;Burnsville;NC;28714 |99| [{ geo_type: ADDRESS; street_no: null; street_suffix: null; unit: 'Lot 1-6' ; city: 'Burnsville'; state: 'NC'; zip: '28714'}]",
+            "Off Hwy 80 Lot 1thru6;Burnsville;NC;28714 |99| [{ geo_type: ADDRESS; street_no: null; street_suffix: null; unit: 'Lot 1-6' ; city: 'Burnsville'; state: 'NC'; zip: '28714'}]",
+            "Lot 1 Entrada;Pecos;NM;87552 |99| [{ geo_type: ADDRESS; street_no: null; street_suffix: null;unit: 'Lot 1' ; city: 'Pecos'; state: 'NM'; zip: '87552'}]",
+            "89A #216 Westwood Chateau;Marion;NC;28752 |99| [{ geo_type: ADDRESS; street_no: null; street_suffix: null;unit: '# 216' ; city: 'Marion'; state: 'NC'; zip: '28752'}]",
+            "433 S Murphy Ave; San Jose; QQ; 00015 |99| [{ geo_type: ADDRESS; street_no: '433'; street_direction: 'S'; street_suffix: 'Ave'; unit: null ; city: 'San Jose'; state: null; zip: '00015'}]",
+            // whats should the expected output be? "2604 ROAD 123;Meeker;CO |99| [{ geo_type: ADDRESS; street_no: '2604'; street_direction: null; street_suffix: null; unit: null ; city: 'Meeker'; state: 'CO'; zip: null}]",
+            "1819 Fruitvale Blvd Unit: Lt A;Yakima;WA;98902 |99| [{ geo_type: ADDRESS;street_no: '1819';street_suffix: 'Blvd';unit: 'Lot A';city: 'Yakima';state: 'WA';zip: '98902'}]",
+            "2559 12th Avenue North West;Columbia Falls;MT;59912 |99| [{ geo_type: ADDRESS; street_no: '2559'; street_direction: null; street: '12th'; street_suffix: 'Avenue'; street_post_direction: 'North West'; unit: null ; city: 'Columbia Falls'; state: 'MT'; zip: '59912'}]",
     })
     public void legacy_cases2(String input, int expectNumMatches, String expectedAsJson) throws Exception {
-        input = input.replaceAll(";|\\.", ",");
+        input = input.replaceAll(";", ",");
         expectedAsJson = expectedAsJson.replaceAll(";|\\.", ",");
 
         ParseDebug dbg = new ParseDebug();
         Geo[] actual = _parser.parse(input , dbg);
         Geo[] expected = _gson.fromJson(expectedAsJson, Geo[].class);
+
+        //System.out.println(actual.clone());
+        //System.out.println(expected);
 
         assertNotNull("Parser response is null\n", actual);
         assertTrue("Parser returned no results\n", 0 != actual.length);
