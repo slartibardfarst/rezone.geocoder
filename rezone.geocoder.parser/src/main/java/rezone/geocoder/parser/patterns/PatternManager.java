@@ -26,6 +26,7 @@ public class PatternManager {
 
         s += "city_geo :- city, [comma], state;";
         s += "city_geo :- city, [comma], zip;";
+        s += "city_geo :- city, [comma], state, [comma], zip;";
 
         s += "state_geo :- state;";
         s += "state_geo :- state, [comma], zip;";

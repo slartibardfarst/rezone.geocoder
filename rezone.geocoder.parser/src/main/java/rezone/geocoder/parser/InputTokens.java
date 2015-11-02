@@ -25,11 +25,17 @@ public class InputTokens {
     }
 
     public static InputTokens tokenize(String inputString) {
+        inputString = inputString.replaceAll("(?i)NULL","");
         inputString = inputString.replaceAll("\\s+[\\-]+\\s+"," ");
         inputString = inputString.replaceAll("\\.","");
         inputString = inputString.replaceAll(";",",");
-        String spacedOutCommas = inputString.replaceAll(",", " , ");
-        String[] tokens = spacedOutCommas.split("\\s+");
+        inputString = inputString.replaceAll(",", " , ");
+        inputString = inputString.replaceAll(",\\s*,", ",");
+        inputString = inputString.trim();
+        inputString = inputString.replaceAll("^,+", "");
+        inputString = inputString.replaceAll(",$", "");
+        inputString = inputString.trim();
+        String[] tokens = inputString.split("\\s+");
 
         InputTokens result = new InputTokens(tokens);
         return result;
