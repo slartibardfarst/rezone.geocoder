@@ -11,7 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import rezone.geocoder.parser.patterns.PatternManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -304,4 +308,37 @@ public class QueryParserTests {
 
         }
     }
+
+//    @Test
+//    public void run12k()
+//    {
+//        int numFailed = 0;
+//        int numSucceeded = 0;
+//        List<String> failedList = new ArrayList<>();
+//
+//        String filename = "D:\\Dev\\github\\sds.address.parsing.api\\AddressParsing.Tests\\TestCases\\TestExpectations12k.txt";
+//        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                if(line.contains("- input -"))
+//                {
+//                    String inputString = br.readLine();
+//                    Geo[] actual = _parser.parse(inputString);
+//                    if(actual.length == 0) {
+//                        numFailed++;
+//                        failedList.add(inputString);
+//                    }
+//                    else
+//                        numSucceeded++;
+//                }
+//            }
+//
+//            System.out.format("num succeeded: %d", numSucceeded);
+//            System.out.format("num failed: %d", numFailed);
+//        }
+//        catch(Exception e)
+//        {
+//            assertTrue(false);
+//        }
+//    }
 }

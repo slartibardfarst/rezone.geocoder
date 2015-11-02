@@ -22,6 +22,8 @@ public class TokenParserHelpers {
 
     static {
         _states = new HashSet<String>() {{
+            add("al");
+            add("alabama");
             add("ak");
             add("alaska");
             add("ar");
@@ -40,42 +42,76 @@ public class TokenParserHelpers {
             add("florida");
             add("ga");
             add("georgia");
+            add("hi");
+            add("hawaii");
             add("id");
             add("idaho");
             add("il");
             add("illinois");
+            add("in");
+            add("indiana");
+            add("ia");
+            add("iowa");
             add("ks");
             add("kansas");
+            add("ky");
+            add("kentucky");
+            add("la");
+            add("louisiana");
+            add("me");
+            add("maine");
+            add("md");
+            add("maryland");
             add("ma");
             add("massachusetts");
             add("mi");
             add("michigan");
+            add("mn");
+            add("minnesota");
+            add("ms");
+            add("mississippi");
+            add("mo");
+            add("missouri");
             add("mt");
             add("montana");
+            add("ne");
+            add("nebraska");
+            add("nv");
+            add("nevada");
+            add("nh");
+            add("new hampshire");
+            add("nj");
+            add("new jersey");
+            add("nm");
+            add("new mexico");
+            add("ny");
+            add("new york");
             add("nc");
             add("north carolina");
             add("nd");
             add("north dakota");
-            add("nh");
-            add("new hampshire");
-            add("nv");
-            add("nevada");
-            add("ny");
-            add("new york");
             add("oh");
             add("ohio");
+            add("ok");
+            add("oklahoma");
             add("or");
             add("oregon");
             add("pa");
             add("pennsylvania");
+            add("ri");
+            add("rhode island");
             add("sc");
             add("south carolina");
+            add("sd");
+            add("south dakota");
             add("tx");
             add("texas");
             add("tn");
             add("tennessee");
             add("ut");
             add("utah");
+            add("vt");
+            add("vermont");
             add("va");
             add("virginia");
             add("wa");
@@ -84,6 +120,8 @@ public class TokenParserHelpers {
             add("wisconsin");
             add("wv");
             add("west virginia");
+            add("wy");
+            add("wyoming");
 
             add("pr");
             add("puerto rico");
@@ -382,8 +420,7 @@ public class TokenParserHelpers {
     //public static boolean streetName1(String s) {        return s.matches("\\d{0,3}?i:\\w+");    }
     public static boolean streetName1(String s) {
         return s.matches("\\w+") &&
-                !_standard_prefixes.contains(s.toLowerCase()) &&
-                !_commonStreetSuffixes.contains(s.toLowerCase());
+                !_standard_prefixes.contains(s.toLowerCase());
     }
 
     public static boolean streetName2(String s, String t) {
