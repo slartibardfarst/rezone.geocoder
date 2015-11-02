@@ -424,6 +424,9 @@ public class TokenParserHelpers {
     }
 
     public static boolean streetName2(String s, String t) {
+        if(s.equalsIgnoreCase("#") && t.matches("\\d{2,3}"))
+            return true;
+
         return s.toLowerCase().matches("[a-z]+") &&
                 t.matches("\\w+") &&
                 ((s.length() >= 2) || !_directionals.contains(s.toLowerCase())) &&   //2205 NE North Valley Rd
