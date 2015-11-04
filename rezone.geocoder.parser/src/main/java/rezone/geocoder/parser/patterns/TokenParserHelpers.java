@@ -441,14 +441,16 @@ public class TokenParserHelpers {
     public static boolean streetName3(String s, String t, String u) {
         return (s.equalsIgnoreCase("state") && t.equalsIgnoreCase("route") && u.matches("\\d+")) ||
                 (t.equalsIgnoreCase("and") && streetName1(s) && streetName1(t)) ||
-                (!streetSuffix1(t) && s.toLowerCase().matches("[a-z]{1,8}") && streetName2(t, u));
+                (!streetSuffix1(t) && s.toLowerCase().matches("[a-z]{1,8}") && streetName2(t, u)) ||
+                (s.toLowerCase().matches("[a-z]+") && t.toLowerCase().matches("[a-z]+") && u.toLowerCase().matches("[a-z]+") && !_commonStreetSuffixes.contains(u));
     }
 
     public static boolean city1(String s) {
         return s.toLowerCase().matches("[a-z]+") &&
                 !state1(s) &&
                 !_commonStreetSuffixes.contains(s.toLowerCase()) &&
-                (!s.equalsIgnoreCase("county"));
+                (!s.equalsIgnoreCase("county")) &&
+                (!s.equalsIgnoreCase("township"));
     }
 
     public static boolean city2(String s, String t) {
