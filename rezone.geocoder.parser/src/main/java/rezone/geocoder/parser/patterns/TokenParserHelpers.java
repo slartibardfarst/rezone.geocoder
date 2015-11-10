@@ -17,6 +17,7 @@ public class TokenParserHelpers {
     private static Set<String> _standard_prefixes;
     private static Set<String> _multidirectionalStarts;
     private static Set<String> _multidirectionalEnds;
+    private static Set<String> _validDirectionalCombinations;
     private static String _mostCommonStreetSuffixes;
     private static String _lessCommonStreetSuffixes;
 
@@ -175,6 +176,17 @@ public class TokenParserHelpers {
             add("w");
             add("east");
             add("west");
+        }};
+
+        _validDirectionalCombinations = new HashSet<String>() {{
+         add("northwest");
+            add("northeast");
+            add("southwest");
+            add("southeast");
+            add("nw");
+            add("ne");
+            add("sw");
+            add("se");
         }};
 
         _standard_prefixes = new HashSet<String>() {{
@@ -516,7 +528,7 @@ public class TokenParserHelpers {
     public static boolean post_unit1(String s) {
         return !streetSuffix1(s) &&
                 ((s.length() <= 1) || !directional1(s)) &&
-                s.toLowerCase().matches("(unit|ste|#)?[a-z0-9]{1,9}-?[a-z0-9]{0,2}");
+                s.toLowerCase().matches("(unit|ste|#)?-?[a-z0-9]{1,9}-?[a-z0-9]{0,2}");
     }
 
     public static boolean post_unit2(String s, String t) {
@@ -532,4 +544,29 @@ public class TokenParserHelpers {
     public static boolean county3(String s, String t, String u) {
         return s.toLowerCase().matches("[a-z]+") && t.toLowerCase().matches("[a-z]+") && u.equalsIgnoreCase("county");
     }
+
+    public static boolean name1(String s) {
+        return s.toLowerCase().matches("[a-z]+");
+    }
+
+    public static boolean name2(String s, String t) {
+        return s.toLowerCase().matches("[a-z]+") &&
+                t.toLowerCase().matches("[a-z]+");
+    }
+
+    public static boolean name3(String s, String t, String u) {
+        return s.toLowerCase().matches("[a-z]+") &&
+                t.toLowerCase().matches("[a-z]+") &&
+                u.toLowerCase().matches("[a-z]+");
+    }
+    public static Set<String> getValidDirectionalCombinations()
+    {
+        return _validDirectionalCombinations;
+    }
+
+    public static Set<String> getStandardPrefixes()
+    {
+        return _standard_prefixes;
+    }
 }
+

@@ -85,6 +85,13 @@ public class Geo {
                     zip = String.join(" ", currPredicateMatch.Tokens);
                     break;
 
+                case "name":
+                    if(match.Pattern.getName().equalsIgnoreCase("city_geo"))
+                        city += String.join(" ", currPredicateMatch.Tokens);
+                    else
+                        neighborhood += String.join(" ", currPredicateMatch.Tokens);
+
+
             }
         }
     }
@@ -143,6 +150,9 @@ public class Geo {
             case "zip_geo":
             case "zip":
                 return GeoType.ZIP;
+
+            case "nbhd_geo":
+                return GeoType.NEIGHBORHOOD;
 
             default:
                 return GeoType.UNKNOWN;

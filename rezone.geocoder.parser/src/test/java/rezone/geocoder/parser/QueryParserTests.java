@@ -34,6 +34,7 @@ public class QueryParserTests {
     }
 
 
+
     @Test
     @Parameters({
             "7212 SUN COVE CR;Las Vegas;NV;89128       | [{ geo_type: ADDRESS; address_line: '7212 Sun Cove Cr'; street_no: '7212'; street_direction: null; street: 'Sun Cove'; street_suffix: 'Cr'; street_post_direction: null; city: 'Las Vegas'; state: 'NV'; zip: '89128'; unit: null }]"
@@ -61,7 +62,7 @@ public class QueryParserTests {
             "754 Pharr Rd. Atlanta. Georgia 31035 |1| [{ geo_type: ADDRESS; address_line: '754 Pharr Rd'; street_no: '754'; street: 'Pharr'; street_suffix: 'Rd'; city: 'Atlanta'; state: 'Georgia'; zip: '31035' }]",
             "Texas 76013                          |1| [{ geo_type: STATE; state: 'Texas'; zip: '76013' }]",
             "CA                                   |1| [{ geo_type: STATE; state: 'CA' }]",
-            "Grand canyon 86023                   |3| [{ geo_type: CITY; city: 'Grand canyon'; zip: '86023'  }]"
+            "Grand canyon 86023                   |4| [{ geo_type: CITY; city: 'Grand canyon'; zip: '86023'  }]"
     })
     public void addressitTests(String input, int numExpectedMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -182,8 +183,7 @@ public class QueryParserTests {
     // Geos specific unit test for match method type = 'Neighborhood' note that neighborhoods currently parsed as cities or streets
     @Test
     @Parameters({
-            "Bellrose Park; Tampa; FL |2| [{ geo_type: STREET; address_line: null; street_no: null; street_direction: null;  street: 'Bellrose'; street_suffix:'Park'; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null}]"
-
+            "Bellrose Park; Tampa; FL |1| [{ geo_type: STREET; address_line: null; street_no: null; street_direction: null;  street: 'Bellrose'; street_suffix:'Park'; street_post_direction: null; city: 'Tampa'; state: 'FL'; zip:null; unit: null}]"
     })
     public void qaMatchMethodNeighborhoodTest(String input, int expectedNumMatches, String expectedAsJson) throws Exception {
         input = input.replaceAll(";|\\.", ",");
@@ -206,7 +206,7 @@ public class QueryParserTests {
         }
     }
 
-    // GEOV-329
+
     @Test
     @Parameters({
             "S State Line Rd Pittsburg KS 64832    | 1 |  [{ geo_type: STREET; street_direction: 'S';  street: 'State Line'; street_suffix: 'Rd'; city: 'Pittsburg'; state: 'KS'; zip:'64832'}]",
@@ -243,7 +243,7 @@ public class QueryParserTests {
             "572 E Willow St Elizabethtown PA                   | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'E'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 NE Willow St Elizabethtown PA                  | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'NE'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "572 northeast Willow St Elizabethtown PA           | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'northeast'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
-            "572 north east Willow St Elizabethtown PA          | 2 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'north east'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
+            "572 north east Willow St Elizabethtown PA          | 1 |  [{ geo_type: ADDRESS; street_no: '572';  street_direction: 'northeast'; street: 'Willow'; street_suffix: 'St'; city: 'Elizabethtown'; state:'PA'}]",
             "10776 Mieras Dr NE; Sparta;MI;49345                | 1 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
             "10776 Mieras Dr NE Sparta;MI;49345                 | 2 |  [{ geo_type: ADDRESS; street_no: '10776';  street: 'Mieras'; street_suffix: 'Dr'; street_post_direction: 'NE'; city: 'Sparta'; state:'MI'; zip: '49345'}]",
             "5870 State Route 669 NE Somerset OH                | 2 |  [{ geo_type: ADDRESS; street_no: '5870'; street: 'State Route 669'; street_post_direction: 'NE'; city: 'Somerset'; state:'OH'}]",
@@ -274,7 +274,7 @@ public class QueryParserTests {
 
     @Test
     @Parameters({
-            "First Ave New York; 10075                           | 1  |  [{ geo_type: STREET; street: 'First'; street_suffix: 'Ave'; city: 'New York'; state: 'NY'; zip:'10075'}]",
+            "First Ave New York; 10075                           | 2  |  [{ geo_type: STREET; street: 'First'; street_suffix: 'Ave'; city: 'New York'; state: 'NY'; zip:'10075'}]",
             "1st Ave New York; 10075                             | 99 |  [{ geo_type: STREET; street: '1st'; street_suffix: 'Ave'; city: 'New York'; state: 'NY'; zip:'10075'}]",
             "1009 W Main Ave; Chewelah;WA 99109                  | 1  |  [{ geo_type: ADDRESS; street_no: '1009'; street_direction: 'W'; street: 'Main'; street_suffix: 'Ave'; city: 'Chewelah'; state: 'WA'; zip:'99109'}]",
             "1009 W Main; Chewelah;WA 99109                      | 99 |  [{ geo_type: ADDRESS; street_no: '1009'; street_direction: 'W'; street: 'Main'; city: 'Chewelah'; state: 'WA'; zip:'99109'}]",

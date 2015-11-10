@@ -1,5 +1,7 @@
 package rezone.geocoder.parser;
 
+import rezone.geocoder.parser.patterns.TokenParserHelpers;
+
 import java.util.*;
 
 
@@ -25,6 +27,7 @@ public class InputTokens {
     }
 
     public static InputTokens tokenize(String inputString) {
+        inputString = RemoveSpacesBetweenMultiDirectionals(inputString);
         inputString = inputString.replaceAll("(?i)NULL","");
         inputString = inputString.replaceAll("\\s+[\\-]+\\s+"," ");
         inputString = inputString.replaceAll("\\.","");
@@ -39,6 +42,36 @@ public class InputTokens {
 
         InputTokens result = new InputTokens(tokens);
         return result;
+    }
+
+    private static String RemoveSpacesBetweenMultiDirectionals(String addressString)
+    {
+        if (isNullOrEmpty(addressString))
+            return null;
+
+        String[] phrases = addressString.split(",", -1);
+        if (phrases.length == 0)
+            return addressString;
+
+        ArrayList<String> parts = new ArrayList<String>(Arrays.asList(phrases[0].toLowerCase().split("\\s", -1)));
+        for (int i = 0; i < parts.size()-1; i++)
+        {
+            String test = parts.get(i) + parts.get(i+1);
+            if(TokenParserHelpers.getValidDirectionalCombinations().contains(test))
+            {
+                parts.set(i, parts.get(i) + parts.get(i + 1));
+                parts.remove(i + 1);
+                phrases[0] = String.join(" ", parts);
+                return String.join(",", phrases);
+            }
+        }
+
+        return addressString;
+    }
+
+    private static boolean isNullOrEmpty(String s)
+    {
+        return (null == s) || s.isEmpty();
     }
 }
 

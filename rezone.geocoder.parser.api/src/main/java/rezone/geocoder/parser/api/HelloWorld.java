@@ -2,6 +2,7 @@ package rezone.geocoder.parser.api;
 
 import com.google.gson.Gson;
 import rezone.geocoder.parser.Geo;
+import rezone.geocoder.parser.ParseDebug;
 import rezone.geocoder.parser.QueryParser;
 import spark.QueryParamsMap;
 
@@ -18,7 +19,8 @@ public class HelloWorld {
         {
             QueryParamsMap queryMap = req.queryMap();
             String address = queryMap.value("address");
-            Geo[] result = qp.parse(address);
+            ParseDebug dbg = new ParseDebug();
+            Geo[] result = qp.parse(address, dbg);
 
             return result;
         }, new JsonTransformer());

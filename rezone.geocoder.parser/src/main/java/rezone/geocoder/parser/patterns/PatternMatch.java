@@ -57,15 +57,14 @@ public class PatternMatch {
                     TokenParserHelpers.zip1(_predicateMatches.get("unit").Tokens[0]))
                 return false;
 
-            if (_predicateMatches.containsKey("street") && _predicateMatches.get("street").Tokens[0].toLowerCase().equalsIgnoreCase("state"))
-            {
-                if(_predicateMatches.containsKey("street_suffix") && _predicateMatches.get("street_suffix").Tokens[0].toLowerCase().equalsIgnoreCase("route"))
+            if (_predicateMatches.containsKey("street") && _predicateMatches.get("street").Tokens[0].toLowerCase().equalsIgnoreCase("state")) {
+                if (_predicateMatches.containsKey("street_suffix") && _predicateMatches.get("street_suffix").Tokens[0].toLowerCase().equalsIgnoreCase("route"))
                     return false;
 
-                if(_predicateMatches.get("street").Tokens.length == 2 && _predicateMatches.containsKey("unit"))
+                if (_predicateMatches.get("street").Tokens.length == 2 && _predicateMatches.containsKey("unit"))
                     return false;
 
-                if(_predicateMatches.get("street").Tokens.length == 3 && _predicateMatches.get("street").Tokens[1].toLowerCase().equalsIgnoreCase("route"))
+                if (_predicateMatches.get("street").Tokens.length == 3 && _predicateMatches.get("street").Tokens[1].toLowerCase().equalsIgnoreCase("route"))
                     return true;
             }
 
@@ -76,18 +75,48 @@ public class PatternMatch {
                     TokenParserHelpers.streetSuffix1(_predicateMatches.get("street").Tokens[1]))
                 return false;
 
-            if(!_predicateMatches.containsKey("street_direction") &&
+            if (!_predicateMatches.containsKey("street_direction") &&
                     _predicateMatches.containsKey("street") &&
                     TokenParserHelpers.directional1(_predicateMatches.get("street").Tokens[0]))
                 return false;
+
+            if (_predicateMatches.containsKey("street") && !_predicateMatches.containsKey("street_suffix")) {
+                int numTokens = _predicateMatches.get("street").Tokens.length;
+                if (numTokens > 1 &&
+                        TokenParserHelpers.streetSuffix1(_predicateMatches.get("street").Tokens[numTokens - 1]))
+                    return false;
+            }
         }
 
-        if ((Pattern.getName().equalsIgnoreCase("street_geo")) &&
-                _predicateMatches.containsKey("street") &&
-                _predicateMatches.get("street").Tokens.length == 3 &&
-                TokenParserHelpers.directional1(_predicateMatches.get("street").Tokens[0]) &&
-                !_predicateMatches.containsKey("street_direction"))
-            return false;
+        if (Pattern.getName().equalsIgnoreCase("street_geo")) {
+            if (_predicateMatches.containsKey("street") && _predicateMatches.get("street").Tokens.length == 3) {
+                if (TokenParserHelpers.directional1(_predicateMatches.get("street").Tokens[0]) && !_predicateMatches.containsKey("street_direction"))
+                    return false;
+
+                if (TokenParserHelpers.streetSuffix1(_predicateMatches.get("street").Tokens[1]))
+                    return false;
+            }
+
+            if (_predicateMatches.containsKey("street") && !_predicateMatches.containsKey("street_suffix")) {
+                int numTokens = _predicateMatches.get("street").Tokens.length;
+                if (numTokens > 1 &&
+                        TokenParserHelpers.streetSuffix1(_predicateMatches.get("street").Tokens[numTokens - 1]))
+                    return false;
+            }
+        }
+
+        if (Pattern.getName().equalsIgnoreCase("nbhd_geo")) {
+            if (_predicateMatches.containsKey("neighborhood")) {
+                int numTokens = _predicateMatches.get("neighborhood").Tokens.length;
+                if (numTokens == 1 &&
+                        TokenParserHelpers.getStandardPrefixes().contains(_predicateMatches.get("neighborhood").Tokens[0].toLowerCase()))
+                    return false;
+
+                if (numTokens > 1 &&
+                        TokenParserHelpers.streetSuffix1(_predicateMatches.get("neighborhood").Tokens[numTokens - 1]))
+                    return false;
+            }
+        }
 
         return true;
     }

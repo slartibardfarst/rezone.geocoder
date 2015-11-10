@@ -37,6 +37,8 @@ public class PatternManager {
 
         s += "zip_geo :- zip;";
 
+        s += "nbhd_geo :- neighborhood, [comma], city, [comma], [state], [comma], [zip];";
+
         //non-terminals
         s += "address_line :- street_number, street, [post_unit];";
         s += "address_line :- street_number, [pre_unit], street;";
@@ -67,9 +69,35 @@ public class PatternManager {
         s += "county_name :- county/2;";
         s += "county_name :- county/3;";
         s += "comma :- comma/1;";
+        s += "neighborhood :- neighborhood/1;";
+        s += "neighborhood :- neighborhood/2;";
+        s += "neighborhood :- neighborhood/3;";
 
         return s;
     }
+
+//private static String getRulesFromUser() {
+//    String s = "";
+//
+//    //top-level rules
+//
+//    s += "nbhd_geo :- neighborhood, [comma], city, [comma], [state], [comma], [zip];";
+//
+//    s += "city :- city/1;";
+//    s += "city :- city/2;";
+//    s += "city :- city/3;";
+//    s += "state :- state/1;";
+//    s += "state :- state/2;";
+//    s += "zip  :- zip/1;";
+//    s += "zip  :- zip/2;";
+//    s += "comma :- comma/1;";
+//    s += "neighborhood :- neighborhood/1;";
+//    s += "neighborhood :- neighborhood/2;";
+//    s += "neighborhood :- neighborhood/3;";
+//
+//    return s;
+//}
+
 
     private static Map<String, Predicate> definePredicates() {
         Map<String, Predicate> result = new HashMap<String, Predicate>();
@@ -97,7 +125,9 @@ public class PatternManager {
         result.put("county/2", new Predicate("county", (s, t) -> TokenParserHelpers.county2(s, t)));
         result.put("county/3", new Predicate("county", (s, t, u) -> TokenParserHelpers.county3(s, t, u)));
         result.put("comma/1", new Predicate("comma", (s) -> TokenParserHelpers.comma1(s)));
-
+        result.put("neighborhood/1", new Predicate("neighborhood", (s) -> TokenParserHelpers.name1(s)));
+        result.put("neighborhood/2", new Predicate("neighborhood", (s,t) -> TokenParserHelpers.name2(s,t)));
+        result.put("neighborhood/3", new Predicate("neighborhood", (s,t,u) -> TokenParserHelpers.name3(s,t,u)));
         return result;
     }
 
