@@ -10,6 +10,19 @@ public class Hello {
     public Hello() {
     }
 
+    public TestResponse TestLambda(String foo, Context context)
+    {
+        LambdaLogger logger = context.getLogger();
+
+        logger.log("in TestLambda, foo is: " + foo);
+
+        TestResponse response = new TestResponse();
+        response.cacheHit = false;
+        response.loadTime = 0;
+
+        return response;
+    }
+
     public Geo myHandler(Hello.RequestClass request, Context context) {
         LambdaLogger logger = context.getLogger();
         String address = request.getInput();
