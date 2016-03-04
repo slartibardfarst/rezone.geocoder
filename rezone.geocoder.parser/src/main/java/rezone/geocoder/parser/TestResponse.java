@@ -6,8 +6,8 @@ package rezone.geocoder.parser;
 public class TestResponse {
     public TestResponse() {
         parserExistsOnStartup = false;
-        parserConstructionNanos = 0;
+        parserConstructionMs = 0;
     }
     public Boolean parserExistsOnStartup;
-    public long parserConstructionNanos;
+    public long parserConstructionMs;
 }

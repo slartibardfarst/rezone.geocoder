@@ -7,31 +7,31 @@ import rezone.geocoder.parser.ParseDebug;
 import rezone.geocoder.parser.QueryParser;
 
 public class Hello {
-    //public static QueryParser _parser = null;
+    public static QueryParser _parser = null;
 
     public Hello() {
     }
 
-//    public TestResponse TestLambda(String foo, Context context)
-//    {
-//        QueryParser _parser = null;
-//        LambdaLogger logger = context.getLogger();
-//
-//        logger.log("in TestLambda, foo is: " + foo + "\n");
-//
-//        TestResponse response = new TestResponse();
-//
-//        if(null == _parser) {
-//            long start = System.nanoTime();
-//            _parser = new QueryParser();
-//            response.parserExistsOnStartup = true;
-//            response.parserConstructionNanos = System.nanoTime() - start;
-//        }
-//        else
-//            response.parserExistsOnStartup = false;
-//
-//        return response;
-//    }
+    public TestResponse TestLambda(String foo, Context context)
+    {
+        //QueryParser _parser = null;
+        LambdaLogger logger = context.getLogger();
+
+        logger.log("in TestLambda, foo is: " + foo + "\n");
+
+        TestResponse response = new TestResponse();
+
+        if(null == _parser) {
+            long start = System.nanoTime();
+            _parser = new QueryParser();
+            response.parserExistsOnStartup = false;
+            response.parserConstructionMs = (System.nanoTime() - start)/(1000 * 1000);
+        }
+        else
+            response.parserExistsOnStartup = true;
+
+        return response;
+    }
 
     public Geo myHandler(Hello.RequestClass request, Context context) {
         LambdaLogger logger = context.getLogger();
