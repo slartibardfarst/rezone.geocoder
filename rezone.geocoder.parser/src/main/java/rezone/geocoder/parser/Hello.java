@@ -17,15 +17,18 @@ public class Hello {
         //QueryParser _parser = null;
         LambdaLogger logger = context.getLogger();
 
-        logger.log("in TestLambda, foo is: " + foo + "\n");
+        logger.log("In TestLambda\n");
+        logger.log("foo is: " + foo + "\n");
 
         TestResponse response = new TestResponse();
+        response.stringParam = foo;
 
         if(null == _parser) {
             long start = System.nanoTime();
             _parser = new QueryParser();
             response.parserExistsOnStartup = false;
-            response.parserConstructionMs = (System.nanoTime() - start)/(1000 * 1000);
+            response.parserConstructionMicros = (System.nanoTime() - start)/(1000);
+            response.parserConstructionMillis = (response.parserConstructionMicros)/(1000);
         }
         else
             response.parserExistsOnStartup = true;
